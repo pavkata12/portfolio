@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=New+Rocker&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 85%;
+
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 85%;
+
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 85%;
+
+    --primary: 0 72% 51%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 75%;
+
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 0 72% 51%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 80% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 30% 15%;
+    --input: 0 0% 12%;
+    --ring: 0 72% 51%;
+
+    --radius: 0.125rem;
+
+    /* Game UI tokens */
+    --neon-red: 0 72% 51%;
+    --neon-red-bright: 0 100% 60%;
+    --neon-green: 120 60% 45%;
+    --neon-amber: 35 100% 55%;
+    --hud-border: 0 30% 18%;
+    --hud-bg: 0 0% 6%;
+    --hud-bg-elevated: 0 0% 9%;
+    --panel-bg: 0 5% 8%;
+
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 0 0% 85%;
+    --sidebar-primary: 0 72% 51%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 10%;
+    --sidebar-accent-foreground: 0 0% 85%;
+    --sidebar-border: 0 30% 15%;
+    --sidebar-ring: 0 72% 51%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-transparent text-foreground font-body;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.5);
+    overflow-x: hidden;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Orbitron', monospace;
+    font-weight: 600;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.95), 0 0 24px rgba(0,0,0,0.6);
+  }
+  .font-mono-tech {
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .font-body {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 0 16px rgba(0,0,0,0.4);
+  }
+  .font-slogan {
+    font-family: 'New Rocker', cursive;
+    font-weight: 700;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.95), 0 0 30px rgba(0,0,0,0.5);
+  }
+  .text-readable {
+    text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 0 16px rgba(0,0,0,0.4);
+  }
+
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top, 0);
+  }
+
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+
+  .glow-red {
+    text-shadow: 0 0 8px hsl(var(--neon-red) / 0.6), 0 0 20px hsl(var(--neon-red) / 0.3);
+  }
+  .glow-green {
+    text-shadow: 0 0 8px hsl(var(--neon-green) / 0.6);
+  }
+
+  .box-glow-red {
+    box-shadow: 0 0 8px hsl(var(--neon-red) / 0.3), 0 0 20px hsl(var(--neon-red) / 0.1);
+  }
+
+  .hud-panel {
+    background: hsl(var(--panel-bg));
+    border: 1px solid hsl(var(--hud-border));
+  }
+
+  .hud-panel-elevated {
+    background: hsl(var(--hud-bg-elevated));
+    border: 1px solid hsl(var(--hud-border));
+  }
+
+  .scan-lines {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(0 0% 100% / 0.015) 2px,
+      hsl(0 0% 100% / 0.015) 4px
+    );
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: hsl(var(--background)); }
+::-webkit-scrollbar-thumb { background: hsl(var(--hud-border)); }
+::-webkit-scrollbar-thumb:hover { background: hsl(var(--neon-red) / 0.5); }
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out forwards;
+}
+
+@keyframes slide-in-from-left {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+@keyframes slide-in-from-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.animate-slide-in-left {
+  animation: slide-in-from-left 0.25s ease-out forwards;
+}
+.animate-slide-in-right {
+  animation: slide-in-from-right 0.25s ease-out forwards;
+}
+
+/* Whale hero - pops out, nothing covers it */
+.whale-hero {
+  isolation: isolate;
+  pointer-events: auto;
+}
+.whale-glow {
+  filter: drop-shadow(0 0 24px hsl(var(--primary) / 0.25)) drop-shadow(0 8px 32px rgba(0, 0, 0, 0.6));
+}
+
+/* Creations 3D carousel - perspective for wrapper */
+.creations-tab .creations-wrapper {
+  perspective-origin: center center;
+}
+.creations-tab .creations-card:hover {
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.95);
+}
