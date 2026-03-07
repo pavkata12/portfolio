@@ -202,25 +202,43 @@ const CreationsTab = () => {
           <div className="flex gap-2 mt-3">
             <div className="flex-1 min-w-0">
               <p className="font-mono text-[8px] text-primary tracking-widest mb-1">DESKTOP</p>
-              <video
-                src={project.desktopVideo}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full aspect-video rounded border border-border object-cover"
-              />
+              {isCenter ? (
+                <video
+                  key={`${project.title}-desktop`}
+                  src={project.desktopVideo}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  className="w-full aspect-video rounded border border-border object-cover"
+                />
+              ) : (
+                <div
+                  className="w-full aspect-video rounded border border-border object-cover bg-black"
+                  style={{ backgroundImage: `url(${project.image})`, backgroundSize: "cover" }}
+                />
+              )}
             </div>
             <div className="flex-1 max-w-[120px] min-w-0">
               <p className="font-mono text-[8px] text-primary tracking-widest mb-1">MOBILE</p>
-              <video
-                src={project.mobileVideo}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full aspect-[9/19] rounded border border-border object-contain bg-black"
-              />
+              {isCenter ? (
+                <video
+                  key={`${project.title}-mobile`}
+                  src={project.mobileVideo}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  className="w-full aspect-[9/19] rounded border border-border object-contain bg-black"
+                />
+              ) : (
+                <div
+                  className="w-full aspect-[9/19] rounded border border-border object-contain bg-black"
+                  style={{ backgroundImage: `url(${project.image})`, backgroundSize: "cover" }}
+                />
+              )}
             </div>
           </div>
         ) : (
