@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AudioProvider } from "@/contexts/AudioContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import MatrixLoader from "@/components/MatrixLoader";
+import PillChoice from "@/components/PillChoice";
 import Index from "./pages/Index";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
@@ -14,7 +15,12 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [showLoader, setShowLoader] = useState(true);
+  const [showPillChoice, setShowPillChoice] = useState(true);
+  const [showLoader, setShowLoader] = useState(false);
+  const onPillChoose = useCallback(() => {
+    setShowPillChoice(false);
+    setShowLoader(true);
+  }, []);
   const onLoaderComplete = useCallback(() => setShowLoader(false), []);
 
   return (
@@ -22,22 +28,26 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        {/* Portfolio loads from the start under the loader – no white flash when loader ends */}
         <BrowserRouter>
           <ThemeProvider>
-          <AudioProvider>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/contact" element={<Contact />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          </AudioProvider>
+            {showPillChoice ? (
+              <PillChoice onChoose={onPillChoose} />
+            ) : (
+              <>
+                <AudioProvider>
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </AudioProvider>
+                {showLoader && (
+                  <MatrixLoader onComplete={onLoaderComplete} />
+                )}
+              </>
+            )}
           </ThemeProvider>
         </BrowserRouter>
-        {showLoader && (
-          <MatrixLoader onComplete={onLoaderComplete} />
-        )}
       </TooltipProvider>
     </QueryClientProvider>
   );
