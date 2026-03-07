@@ -78,6 +78,42 @@ const projects: Project[] = [
 
 const angleStep = 360 / projects.length;
 
+/** Video with poster; on error (e.g. WebM unsupported on iOS) shows poster image so card isn't empty */
+const VideoWithFallback = ({
+  src,
+  poster,
+  className,
+  aspectClass,
+}: {
+  src: string;
+  poster: string;
+  className?: string;
+  aspectClass: string;
+}) => {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return (
+      <div
+        className={`${aspectClass} rounded border border-border bg-black bg-cover bg-center`}
+        style={{ backgroundImage: `url(${poster})` }}
+      />
+    );
+  }
+  return (
+    <video
+      src={src}
+      poster={poster}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      className={className}
+      onError={() => setFailed(true)}
+    />
+  );
+};
+
 const getCardStyle = (index: number, isCenter: boolean, isSide: boolean, translateZ: number) => {
   const angle = index * angleStep;
   return {
@@ -199,44 +235,40 @@ const CreationsTab = () => {
           {project.description}
         </p>
         {project.desktopVideo && project.mobileVideo ? (
-          <div className="flex gap-2 mt-3">
-            <div className="flex-1 min-w-0">
-              <p className="font-mono text-[8px] text-primary tracking-widest mb-1">DESKTOP</p>
-              {isCenter ? (
-                <video
-                  key={`${project.title}-desktop`}
-                  src={project.desktopVideo}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="auto"
-                  className="w-full aspect-video rounded border border-border object-cover"
-                />
-              ) : (
-                <div
-                  className="w-full aspect-video rounded border border-border object-cover bg-black"
-                  style={{ backgroundImage: `url(${project.image})`, backgroundSize: "cover" }}
-                />
-              )}
-            </div>
-            <div className="flex-1 max-w-[120px] min-w-0">
+          <div className={`flex gap-2 mt-3 ${isNarrow ? "flex-col items-center" : ""}`}>
+            {!isNarrow && (
+              <div className="flex-1 min-w-0">
+                <p className="font-mono text-[8px] text-primary tracking-widest mb-1">DESKTOP</p>
+                {isCenter ? (
+                  <VideoWithFallback
+                    key={`${project.title}-desktop`}
+                    src={project.desktopVideo}
+                    poster={project.image}
+                    aspectClass="w-full aspect-video"
+                    className="w-full aspect-video rounded border border-border object-cover"
+                  />
+                ) : (
+                  <div
+                    className="w-full aspect-video rounded border border-border object-cover bg-black bg-cover bg-center"
+                    style={{ backgroundImage: `url(${project.image})` }}
+                  />
+                )}
+              </div>
+            )}
+            <div className={isNarrow ? "w-full min-w-0 max-w-[200px]" : "flex-1 max-w-[120px] min-w-0"}>
               <p className="font-mono text-[8px] text-primary tracking-widest mb-1">MOBILE</p>
               {isCenter ? (
-                <video
+                <VideoWithFallback
                   key={`${project.title}-mobile`}
                   src={project.mobileVideo}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="auto"
+                  poster={project.image}
+                  aspectClass="w-full aspect-[9/19]"
                   className="w-full aspect-[9/19] rounded border border-border object-contain bg-black"
                 />
               ) : (
                 <div
-                  className="w-full aspect-[9/19] rounded border border-border object-contain bg-black"
-                  style={{ backgroundImage: `url(${project.image})`, backgroundSize: "cover" }}
+                  className="w-full aspect-[9/19] rounded border border-border object-contain bg-black bg-cover bg-center"
+                  style={{ backgroundImage: `url(${project.image})` }}
                 />
               )}
             </div>
