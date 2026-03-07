@@ -1,17 +1,20 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 import HudTopBar from "@/components/HudTopBar";
+import CorporateHeader from "@/components/CorporateHeader";
 import ProfileSidebar from "@/components/ProfileSidebar";
 import QuestSidebar from "@/components/QuestSidebar";
 import BottomTabNav from "@/components/BottomTabNav";
 import BeginningTab from "@/components/tabs/BeginningTab";
 import AchievementsTab from "@/components/tabs/AchievementsTab";
 import CreationsTab from "@/components/tabs/CreationsTab";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("beginning");
   const [profileDrawerOpen, setProfileDrawerOpen] = useState(false);
   const [questDrawerOpen, setQuestDrawerOpen] = useState(false);
+  const { isCyber } = useTheme();
 
   const renderTab = () => {
     switch (activeTab) {
@@ -23,44 +26,55 @@ const Index = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden overflow-x-hidden app-root">
-      {/* Full-page video background on entire portfolio */}
-      <video
-        src="/hero-bg.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="fixed inset-0 w-full h-full object-cover object-center pointer-events-none -z-10"
-        aria-hidden
-      />
-      <div className="fixed inset-0 -z-10 bg-black/30" aria-hidden />
+    <div
+      className={`h-screen flex flex-col overflow-hidden overflow-x-hidden app-root ${!isCyber ? "theme-corporate" : ""}`}
+      data-theme={isCyber ? "cyber" : "corporate"}
+    >
+      {/* Video background само в cyber режим */}
+      {isCyber && (
+        <>
+          <video
+            src="/hero-bg.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="fixed inset-0 w-full h-full object-cover object-center pointer-events-none -z-10"
+            aria-hidden
+          />
+          <div className="fixed inset-0 -z-10 bg-black/30" aria-hidden />
+        </>
+      )}
+      {!isCyber && <div className="fixed inset-0 -z-10 bg-slate-900" aria-hidden />}
 
-      {/* Top HUD */}
-      <HudTopBar
-        onOpenProfile={() => setProfileDrawerOpen(true)}
-        onOpenQuest={() => setQuestDrawerOpen(true)}
-      />
+      {/* Top: Cyber HUD или Corporate minimal header */}
+      {isCyber ? (
+        <HudTopBar
+          onOpenProfile={() => setProfileDrawerOpen(true)}
+          onOpenQuest={() => setQuestDrawerOpen(true)}
+        />
+      ) : (
+        <CorporateHeader
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          onOpenProfile={() => setProfileDrawerOpen(true)}
+        />
+      )}
 
       {/* Main content area */}
-      <div className="flex-1 flex min-h-0">
-        {/* Left Sidebar - Profile */}
+      <div className={`flex-1 flex min-h-0 ${!isCyber ? "corporate-layout" : ""}`}>
         <div className="hidden md:flex">
           <ProfileSidebar />
         </div>
-
-        {/* Center Content */}
-        <main className="flex-1 overflow-y-auto overflow-x-hidden min-w-0 px-3 sm:px-0">
+        <main className={`flex-1 overflow-y-auto overflow-x-hidden min-w-0 ${isCyber ? "px-3 sm:px-0" : "px-4 sm:px-6 lg:px-8"}`}>
           {renderTab()}
         </main>
-
-        {/* Right Sidebar - Quest */}
         <div className="hidden lg:flex">
           <QuestSidebar />
         </div>
       </div>
 
-      {/* Bottom Tab Navigation */}
+      {/* Bottom: Cyber tabs или Corporate minimal tabs */}
       <BottomTabNav activeTab={activeTab} onTabChange={setActiveTab} />
 
       {/* Mobile drawers: Profile (left) and Quest (right) */}

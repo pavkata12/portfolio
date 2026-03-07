@@ -1,20 +1,85 @@
-const BeginningTab = () => {
-  return (
-    <div className="animate-fade-in min-h-full relative">
-      {/* Hero section - slogan (video bg is global in Index) */}
-      <section
-        className="relative z-10 flex min-h-[40vh] sm:min-h-[60vh] lg:min-h-[85vh] flex-col items-center justify-start pt-6 sm:pt-12 md:pt-16 px-4 sm:px-6 text-center"
-        aria-label="Hero"
-      >
-        <div className="w-full max-w-4xl">
-          <p className="font-slogan text-xl sm:text-2xl md:text-3xl lg:text-5xl text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] leading-snug">
-            Build things that matter.
-          </p>
-        </div>
-      </section>
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+import { useTheme } from "@/contexts/ThemeContext";
 
-      {/* CV content - over video bg with readable overlay */}
-      <div className="relative z-10 bg-black/40 backdrop-blur-sm border-t border-border/80">
+const BeginningTab = () => {
+  const { isCyber } = useTheme();
+
+  return (
+    <div className={`animate-fade-in min-h-full relative ${!isCyber ? "corporate-content" : ""}`}>
+      {/* Hero – cyber: центриран слоган; corporate: като референция – текст вляво, снимка вдясно + бутони + stats */}
+      {isCyber ? (
+        <section
+          className="relative z-10 flex min-h-[40vh] sm:min-h-[60vh] lg:min-h-[85vh] flex-col items-center justify-start pt-6 sm:pt-12 md:pt-16 px-4 sm:px-6 text-center"
+          aria-label="Hero"
+        >
+          <div className="w-full max-w-4xl">
+            <p className="font-slogan text-xl sm:text-2xl md:text-3xl lg:text-5xl text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] leading-snug">
+              Build things that matter.
+            </p>
+          </div>
+        </section>
+      ) : (
+        <section
+          className="relative z-10 w-full min-h-[70vh] py-12 lg:py-16 bg-gradient-to-br from-slate-600 via-slate-800 to-blue-950 overflow-visible"
+          aria-label="Hero"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 min-h-[60vh] items-stretch px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto">
+            <div className="relative z-20 flex flex-col justify-center order-2 lg:order-1 py-4">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-amber-400 leading-tight mb-4">
+              Pavlin Moinov is right here!
+            </h1>
+            <p className="text-slate-300 text-lg sm:text-xl leading-relaxed mb-8 max-w-xl">
+              С опит в full-stack разработка превръщам идеи в стабилни приложения – Vue.js, Node.js, Python, real-time системи и production-ready решения.
+            </p>
+            <div className="flex flex-wrap gap-4 mb-10">
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center gap-2 min-h-[48px] min-w-[140px] px-6 py-3 bg-white text-slate-900 font-semibold rounded hover:bg-slate-100 transition-colors active:scale-[0.98] touch-manipulation cursor-pointer"
+              >
+                CHAT WITH ME
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center gap-2 min-h-[48px] min-w-[140px] px-6 py-3 border-2 border-white text-white font-semibold rounded hover:bg-white/10 transition-colors active:scale-[0.98] touch-manipulation cursor-pointer"
+              >
+                START A PROJECT
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+            <div className="flex gap-8 sm:gap-12">
+              <div>
+                <p className="text-3xl sm:text-4xl font-bold text-amber-400">100+</p>
+                <p className="text-slate-400 text-sm">Projects delivered</p>
+              </div>
+              <div>
+                <p className="text-3xl sm:text-4xl font-bold text-amber-400">Full-Stack</p>
+                <p className="text-slate-400 text-sm">Vue, Node, Python</p>
+              </div>
+            </div>
+          </div>
+            <div className="relative order-1 lg:order-2 min-h-[200px] sm:min-h-[240px]" aria-hidden />
+          </div>
+          {/* Снимка bash в долния десен ъгъл на hero (section е full width) */}
+          <div
+            className="absolute bottom-0 right-0 z-0 w-72 h-72 sm:w-80 sm:h-80 lg:w-[22rem] lg:h-[22rem] xl:w-[28rem] xl:h-[28rem] flex items-end justify-end pointer-events-none"
+            style={{
+              maskImage: "linear-gradient(to left, transparent 0%, black 35%)",
+              WebkitMaskImage: "linear-gradient(to left, transparent 0%, black 35%)",
+            }}
+          >
+            <img
+              src="/profile-corporate.png"
+              alt="Pavlin Moinov"
+              className="h-full w-auto object-contain object-bottom object-right"
+            />
+          </div>
+        </section>
+      )}
+
+      {/* CV content */}
+      <div className={`relative z-10 ${isCyber ? "bg-black/40 backdrop-blur-sm border-t border-border/80" : "border-t border-slate-700/80"}`}>
         <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
         {/* CV content - two columns on large screens */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6">

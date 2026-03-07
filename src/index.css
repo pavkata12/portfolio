@@ -65,6 +65,12 @@
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
   }
+  /* По-добра реакция на докосване на iPhone/iOS */
+  button,
+  a[href] {
+    touch-action: manipulation;
+    cursor: pointer;
+  }
   body {
     @apply bg-transparent text-foreground font-body;
     text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.5);
@@ -185,4 +191,51 @@
 }
 .creations-tab .creations-card:hover {
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.95);
+}
+
+/* Corporate theme – по-чист, корпоративен вид без неон */
+[data-theme="corporate"] {
+  --primary: 215 25% 50%;
+  --primary-foreground: 0 0% 100%;
+  --border: 215 15% 22%;
+  --ring: 215 25% 50%;
+  --accent: 215 25% 50%;
+  --sidebar-primary: 215 25% 50%;
+  --sidebar-border: 215 15% 25%;
+}
+
+[data-theme="corporate"] .font-display,
+[data-theme="corporate"] .font-body,
+[data-theme="corporate"] .font-slogan {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.theme-corporate .font-display,
+.theme-corporate .font-body {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* Corporate content – чист шаблон стил за Beginning и др. */
+[data-theme="corporate"] .corporate-content h2 {
+  @apply text-slate-100 text-base font-semibold border-slate-600 pb-2 mb-3;
+  border-bottom-width: 1px;
+  letter-spacing: 0.02em;
+}
+[data-theme="corporate"] .corporate-content h3 {
+  @apply text-sky-400 font-medium;
+}
+[data-theme="corporate"] .corporate-content a {
+  @apply text-sky-400 hover:text-sky-300 hover:underline;
+}
+[data-theme="corporate"] .corporate-content .border-l-2.border-primary {
+  border-left-color: hsl(199 89% 48%);
+}
+[data-theme="corporate"] .corporate-content section {
+  @apply text-slate-200;
+}
+[data-theme="corporate"] .corporate-content .bg-black\/40 {
+  background-color: rgb(30 41 59 / 0.25);
+}
+[data-theme="corporate"] .corporate-layout main {
+  background: transparent;
 }
