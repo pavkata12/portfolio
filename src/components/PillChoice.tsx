@@ -71,17 +71,17 @@ export default function PillChoice({ onChoose }: PillChoiceProps) {
       >
         <div className="absolute inset-0 bg-gradient-to-b from-cyan-950/40 via-black/50 to-black" />
         <MatrixRain color="cyan" />
-        <span className="relative z-10 font-mono text-cyan-400/90 text-sm sm:text-base tracking-widest uppercase mb-4 group-hover:text-cyan-300 transition-colors">
+        <span className="relative z-10 font-mono text-cyan-400/90 text-xs sm:text-base tracking-widest uppercase mb-2 sm:mb-4 group-hover:text-cyan-300 transition-colors">
           Blue pill
         </span>
-        <span className="relative z-10 text-white/90 text-lg sm:text-xl font-semibold max-w-[140px] text-center group-hover:text-white transition-colors">
+        <span className="relative z-10 text-white/90 text-sm sm:text-xl font-semibold max-w-[90px] sm:max-w-[140px] text-center group-hover:text-white transition-colors leading-tight">
           See the truth
         </span>
-        <span className="relative z-10 mt-2 text-cyan-500/70 text-xs sm:text-sm">Corporate style</span>
+        <span className="relative z-10 mt-1 sm:mt-2 text-cyan-500/70 text-[10px] sm:text-sm">Corporate style</span>
       </button>
 
       {/* Center: Morpheus */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-40 sm:w-52 md:w-64 pointer-events-none flex items-center justify-center">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-28 sm:w-52 md:w-64 pointer-events-none flex items-center justify-center">
         <img
           src="/morpheus-pills.png"
           alt=""
@@ -99,13 +99,13 @@ export default function PillChoice({ onChoose }: PillChoiceProps) {
       >
         <div className="absolute inset-0 bg-gradient-to-b from-red-950/40 via-black/50 to-black" />
         <MatrixRain color="red" />
-        <span className="relative z-10 font-mono text-red-400/90 text-sm sm:text-base tracking-widest uppercase mb-4 group-hover:text-red-300 transition-colors">
+        <span className="relative z-10 font-mono text-red-400/90 text-xs sm:text-base tracking-widest uppercase mb-2 sm:mb-4 group-hover:text-red-300 transition-colors">
           Red pill
         </span>
-        <span className="relative z-10 text-white/90 text-lg sm:text-xl font-semibold max-w-[140px] text-center group-hover:text-white transition-colors">
+        <span className="relative z-10 text-white/90 text-sm sm:text-xl font-semibold max-w-[90px] sm:max-w-[140px] text-center group-hover:text-white transition-colors leading-tight">
           Stay in the Matrix
         </span>
-        <span className="relative z-10 mt-2 text-red-500/70 text-xs sm:text-sm">Cyber style</span>
+        <span className="relative z-10 mt-1 sm:mt-2 text-red-500/70 text-[10px] sm:text-sm">Cyber style</span>
       </button>
 
       <style>{`
