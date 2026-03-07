@@ -59,8 +59,6 @@ const ProfileSidebar = ({ drawer }: ProfileSidebarProps) => {
           <span className="font-mono text-[9px] text-gray-200 tracking-widest">availability</span>
           <a
             href="/contact"
-            target="_blank"
-            rel="noopener noreferrer"
             className={`w-full border px-3 py-1.5 flex items-center justify-between transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
               highlightOpenForHire
                 ? "border-primary bg-primary/25 shadow-[0_0_20px_hsl(var(--primary)/0.5)] ring-2 ring-primary/60"
