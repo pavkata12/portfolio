@@ -21,18 +21,18 @@ const BeginningTab = () => {
         </section>
       ) : (
         <section
-          className="relative z-10 w-full min-h-[70vh] py-12 lg:py-16 bg-gradient-to-br from-slate-600 via-slate-800 to-blue-950 overflow-visible"
+          className="relative z-10 w-full min-h-0 sm:min-h-[50vh] lg:min-h-[70vh] pt-4 pb-8 sm:pt-6 sm:pb-12 lg:py-16 bg-gradient-to-br from-slate-600 via-slate-800 to-blue-950 overflow-visible"
           aria-label="Hero"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 min-h-[60vh] items-stretch px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto">
-            <div className="relative z-20 flex flex-col justify-center order-2 lg:order-1 py-4">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-amber-400 leading-tight mb-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 lg:gap-12 min-h-0 lg:min-h-[60vh] items-stretch px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto">
+            <div className="relative z-20 flex flex-col justify-center order-2 lg:order-1 pt-0 pb-4 sm:py-4 lg:py-4 mb-64 sm:mb-80 lg:mb-0">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-amber-400 leading-tight mb-3 sm:mb-4">
               Pavlin Moinov is right here!
             </h1>
-            <p className="text-slate-300 text-lg sm:text-xl leading-relaxed mb-8 max-w-xl">
+            <p className="text-slate-300 text-base sm:text-xl leading-relaxed mb-5 sm:mb-8 max-w-xl">
               С опит в full-stack разработка превръщам идеи в стабилни приложения – Vue.js, Node.js, Python, real-time системи и production-ready решения.
             </p>
-            <div className="flex flex-wrap gap-4 mb-10">
+            <div className="flex flex-wrap gap-3 sm:gap-4 mb-6 sm:mb-10">
               <Link
                 to="/contact"
                 className="inline-flex items-center justify-center gap-2 min-h-[48px] min-w-[140px] px-6 py-3 bg-white text-slate-900 font-semibold rounded hover:bg-slate-100 transition-colors active:scale-[0.98] touch-manipulation cursor-pointer"
@@ -48,22 +48,22 @@ const BeginningTab = () => {
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="flex gap-8 sm:gap-12">
+            <div className="flex gap-6 sm:gap-12">
               <div>
-                <p className="text-3xl sm:text-4xl font-bold text-amber-400">100+</p>
-                <p className="text-slate-400 text-sm">Projects delivered</p>
+                <p className="text-2xl sm:text-4xl font-bold text-amber-400">100+</p>
+                <p className="text-slate-400 text-xs sm:text-sm">Projects delivered</p>
               </div>
               <div>
-                <p className="text-3xl sm:text-4xl font-bold text-amber-400">Full-Stack</p>
-                <p className="text-slate-400 text-sm">Vue, Node, Python</p>
+                <p className="text-2xl sm:text-4xl font-bold text-amber-400">Full-Stack</p>
+                <p className="text-slate-400 text-xs sm:text-sm">Vue, Node, Python</p>
               </div>
             </div>
           </div>
-            <div className="relative order-1 lg:order-2 min-h-[200px] sm:min-h-[240px]" aria-hidden />
+            <div className="relative order-1 lg:order-2 min-h-0 sm:min-h-0 lg:min-h-[200px]" aria-hidden />
           </div>
           {/* Снимка bash в долния десен ъгъл на hero (section е full width) */}
           <div
-            className="absolute bottom-0 right-0 z-0 w-72 h-72 sm:w-80 sm:h-80 lg:w-[22rem] lg:h-[22rem] xl:w-[28rem] xl:h-[28rem] flex items-end justify-end pointer-events-none"
+            className="absolute bottom-0 right-0 z-0 w-64 h-64 sm:w-80 sm:h-80 lg:w-[22rem] lg:h-[22rem] xl:w-[28rem] xl:h-[28rem] flex items-end justify-end pointer-events-none"
             style={{
               maskImage: "linear-gradient(to left, transparent 0%, black 35%)",
               WebkitMaskImage: "linear-gradient(to left, transparent 0%, black 35%)",
