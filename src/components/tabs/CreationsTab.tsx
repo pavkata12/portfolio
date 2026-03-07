@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 
 const useIsNarrow = () => {
   const [isNarrow, setIsNarrow] = useState(false);
@@ -21,6 +21,9 @@ type Project = {
   detailPage: string | null;
   desktopVideo?: string;
   mobileVideo?: string;
+  /** MP4 за iPhone (Safari не поддържа WebM). Ако има – използва се за възпроизвеждане на iOS. */
+  desktopVideoMp4?: string;
+  mobileVideoMp4?: string;
 };
 
 /* Same projects as HTML portfolio script.js */
@@ -35,6 +38,8 @@ const projects: Project[] = [
     detailPage: "/project-simracing-academy.html",
     desktopVideo: "/simracing-desktop.webm",
     mobileVideo: "/simracing-mobile.webm",
+    desktopVideoMp4: "/simracing-desktop.mp4",
+    mobileVideoMp4: "/simracing-mobile.mp4",
   },
   {
     title: "ORTHODENT",
@@ -46,6 +51,8 @@ const projects: Project[] = [
     detailPage: "/project-orthodent.html",
     desktopVideo: "/orthodent-desktop.webm",
     mobileVideo: "/orthodent-mobile.webm",
+    desktopVideoMp4: "/orthodent-desktop.mp4",
+    mobileVideoMp4: "/orthodent-mobile.mp4",
   },
   {
     title: "E-COMMERCE PLATFORM",
@@ -78,19 +85,52 @@ const projects: Project[] = [
 
 const angleStep = 360 / projects.length;
 
-/** Video with poster; on error (e.g. WebM unsupported on iOS) shows poster image so card isn't empty */
+/** Video with poster; on error shows poster. srcMp4 = optional MP4 за iPhone (Safari не поддържа WebM). tapToPlay за блокиран autoplay. */
 const VideoWithFallback = ({
   src,
+  srcMp4,
   poster,
   className,
   aspectClass,
+  tapToPlay = false,
 }: {
   src: string;
+  srcMp4?: string;
   poster: string;
   className?: string;
   aspectClass: string;
+  tapToPlay?: boolean;
 }) => {
   const [failed, setFailed] = useState(false);
+  const [showTapOverlay, setShowTapOverlay] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || failed) return;
+    const tryPlay = () => {
+      video.play().catch(() => {
+        if (tapToPlay) setShowTapOverlay(true);
+      });
+    };
+    tryPlay();
+    video.addEventListener("canplay", tryPlay);
+    return () => video.removeEventListener("canplay", tryPlay);
+  }, [src, srcMp4, failed, tapToPlay]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !tapToPlay) return;
+    const onPlaying = () => setShowTapOverlay(false);
+    video.addEventListener("playing", onPlaying);
+    return () => video.removeEventListener("playing", onPlaying);
+  }, [tapToPlay]);
+
+  const handleTapToPlay = () => {
+    videoRef.current?.play();
+    setShowTapOverlay(false);
+  };
+
   if (failed) {
     return (
       <div
@@ -100,17 +140,32 @@ const VideoWithFallback = ({
     );
   }
   return (
-    <video
-      src={src}
-      poster={poster}
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="metadata"
-      className={className}
-      onError={() => setFailed(true)}
-    />
+    <div className="relative rounded overflow-hidden">
+      <video
+        ref={videoRef}
+        poster={poster}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        className={className}
+        onError={() => setFailed(true)}
+      >
+        {srcMp4 && <source src={srcMp4} type="video/mp4" />}
+        <source src={src} type="video/webm" />
+      </video>
+      {tapToPlay && showTapOverlay && (
+        <button
+          type="button"
+          onClick={handleTapToPlay}
+          className="absolute inset-0 flex items-center justify-center bg-black/60 text-primary font-display text-[10px] tracking-wider"
+          aria-label="Play video"
+        >
+          Tap to play
+        </button>
+      )}
+    </div>
   );
 };
 
@@ -243,9 +298,11 @@ const CreationsTab = () => {
                   <VideoWithFallback
                     key={`${project.title}-desktop`}
                     src={project.desktopVideo}
+                    srcMp4={project.desktopVideoMp4}
                     poster={project.image}
                     aspectClass="w-full aspect-video"
                     className="w-full aspect-video rounded border border-border object-cover"
+                    tapToPlay={isNarrow}
                   />
                 ) : (
                   <div
@@ -261,9 +318,11 @@ const CreationsTab = () => {
                 <VideoWithFallback
                   key={`${project.title}-mobile`}
                   src={project.mobileVideo}
+                  srcMp4={project.mobileVideoMp4}
                   poster={project.image}
                   aspectClass={isNarrow ? "w-[152px] aspect-[9/19] h-[320px]" : "w-full aspect-[9/19]"}
                   className={isNarrow ? "w-[152px] h-[320px] rounded border border-border object-contain bg-black" : "w-full aspect-[9/19] rounded border border-border object-contain bg-black"}
+                  tapToPlay={isNarrow}
                 />
               ) : (
                 <div
