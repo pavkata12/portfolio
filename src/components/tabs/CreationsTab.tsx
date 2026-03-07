@@ -135,7 +135,7 @@ const CreationsTab = () => {
   const [transitionDisabled, setTransitionDisabled] = useState(false);
   const isNarrow = useIsNarrow();
   const CARD_W = isNarrow ? 300 : 420;
-  const CARD_H = isNarrow ? 360 : 480;
+  const CARD_H = isNarrow ? 540 : 480;
   const translateZ = isNarrow ? 320 : 600;
 
   const goNext = useCallback(() => {
@@ -255,19 +255,19 @@ const CreationsTab = () => {
                 )}
               </div>
             )}
-            <div className={isNarrow ? "w-full min-w-0 max-w-[200px]" : "flex-1 max-w-[120px] min-w-0"}>
+            <div className={isNarrow ? "flex flex-col items-center shrink-0" : "flex-1 max-w-[120px] min-w-0"}>
               <p className="font-mono text-[8px] text-primary tracking-widest mb-1">MOBILE</p>
               {isCenter ? (
                 <VideoWithFallback
                   key={`${project.title}-mobile`}
                   src={project.mobileVideo}
                   poster={project.image}
-                  aspectClass="w-full aspect-[9/19]"
-                  className="w-full aspect-[9/19] rounded border border-border object-contain bg-black"
+                  aspectClass={isNarrow ? "w-[152px] aspect-[9/19] h-[320px]" : "w-full aspect-[9/19]"}
+                  className={isNarrow ? "w-[152px] h-[320px] rounded border border-border object-contain bg-black" : "w-full aspect-[9/19] rounded border border-border object-contain bg-black"}
                 />
               ) : (
                 <div
-                  className="w-full aspect-[9/19] rounded border border-border object-contain bg-black bg-cover bg-center"
+                  className={isNarrow ? "w-[152px] h-[320px] rounded border border-border object-contain bg-black bg-cover bg-center" : "w-full aspect-[9/19] rounded border border-border object-contain bg-black bg-cover bg-center"}
                   style={{ backgroundImage: `url(${project.image})` }}
                 />
               )}
@@ -308,7 +308,7 @@ const CreationsTab = () => {
       <h2 className="font-display text-xs sm:text-sm tracking-widest text-center text-gray-200 mb-3 sm:mb-4">CREATIONS</h2>
 
       {/* Slider centered in viewport */}
-      <div className="flex items-center gap-2 sm:gap-4 justify-center min-h-[380px] sm:min-h-[520px] w-full max-w-[calc(100vw-2rem)]">
+      <div className="flex items-center gap-2 sm:gap-4 justify-center min-h-[580px] sm:min-h-[520px] w-full max-w-[calc(100vw-2rem)]">
         <button
           type="button"
           onClick={goPrev}
