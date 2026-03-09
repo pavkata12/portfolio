@@ -6,18 +6,35 @@ const THEME_SRC = "/sounds/theme.mp3";
 type AudioContextType = {
   soundEffectsEnabled: boolean;
   musicEnabled: boolean;
+  heroSoundEnabled: boolean;
   toggleSoundEffects: () => void;
   toggleMusic: () => void;
+  toggleHeroSound: () => void;
   playBeep: () => void;
 };
 
 const AudioContext = createContext<AudioContextType | null>(null);
 
+const HERO_SOUND_KEY = "portfolio-hero-sound";
+
 export const AudioProvider = ({ children }: { children: ReactNode }) => {
   const [soundEffectsEnabled, setSoundEffectsEnabled] = useState(true);
   const [musicEnabled, setMusicEnabled] = useState(false);
+  const [heroSoundEnabled, setHeroSoundEnabled] = useState(() => {
+    try {
+      return localStorage.getItem(HERO_SOUND_KEY) === "1";
+    } catch {
+      return false;
+    }
+  });
   const beepRef = useRef<HTMLAudioElement | null>(null);
   const themeRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(HERO_SOUND_KEY, heroSoundEnabled ? "1" : "0");
+    } catch {}
+  }, [heroSoundEnabled]);
 
   const playBeep = useCallback(() => {
     if (!soundEffectsEnabled) return;
@@ -40,6 +57,10 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
 
   const toggleMusic = useCallback(() => {
     setMusicEnabled((v) => !v);
+  }, []);
+
+  const toggleHeroSound = useCallback(() => {
+    setHeroSoundEnabled((v) => !v);
   }, []);
 
   // Theme music: play on loop when enabled, pause when disabled
@@ -68,8 +89,10 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
   const value: AudioContextType = {
     soundEffectsEnabled,
     musicEnabled,
+    heroSoundEnabled,
     toggleSoundEffects,
     toggleMusic,
+    toggleHeroSound,
     playBeep,
   };
 

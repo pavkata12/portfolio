@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhytoLife Nutraceuticals - Pavlin Moinov</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        .project-detail-page {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #000000 0%, #0a0000 100%);
+            padding: 40px 20px;
+        }
+        .project-header { max-width: 1200px; margin: 0 auto 60px; }
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 12px 24px; background: transparent; border: 1px solid var(--primary-red);
+            color: var(--primary-red); font-family: 'Orbitron', sans-serif; font-size: 12px;
+            letter-spacing: 2px; cursor: pointer; transition: all 0.3s ease; text-decoration: none; margin-bottom: 40px;
+        }
+        .back-btn:hover { background: var(--primary-red); color: white; transform: translateX(-5px); }
+        .client-badge { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; }
+        .client-badge .label { font-family: 'Orbitron', sans-serif; font-size: 12px; color: var(--primary-red); letter-spacing: 2px; }
+        .client-badge .name { font-size: 18px; color: var(--text-primary); font-weight: 600; }
+        .client-logo { font-family: 'Orbitron', sans-serif; font-size: 14px; color: var(--text-secondary); }
+        .project-title-section { text-align: center; margin-bottom: 40px; }
+        .project-title {
+            font-family: 'Orbitron', sans-serif; font-size: 48px; color: var(--primary-red);
+            margin-bottom: 15px; text-transform: uppercase; letter-spacing: 3px;
+        }
+        .project-subtitle { font-size: 18px; color: var(--text-secondary); letter-spacing: 2px; }
+        .project-content { max-width: 1200px; margin: 0 auto; display: grid; gap: 40px; }
+        .project-hero-image {
+            width: 100%; height: 500px; overflow: hidden; border: 2px solid var(--primary-red);
+            position: relative; background: rgba(20, 20, 20, 0.5);
+        }
+        .project-hero-image img,
+        .project-hero-image video { width: 100%; height: 100%; object-fit: cover; }
+        .project-hero-image video { display: block; }
+        .project-info-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+        .project-description-section {
+            background: var(--panel-bg); border: 1px solid var(--border-color); padding: 40px;
+        }
+        .section-title {
+            font-family: 'Orbitron', sans-serif; font-size: 24px; color: var(--primary-red);
+            margin-bottom: 20px; letter-spacing: 2px;
+        }
+        .project-description {
+            font-size: 16px; line-height: 1.8; color: var(--text-secondary); margin-bottom: 30px;
+        }
+        .project-meta {
+            background: var(--panel-bg); border: 1px solid var(--border-color); padding: 30px; height: fit-content;
+        }
+        .meta-item { margin-bottom: 25px; }
+        .meta-label {
+            font-family: 'Orbitron', sans-serif; font-size: 12px; color: var(--primary-red);
+            letter-spacing: 2px; margin-bottom: 8px;
+        }
+        .meta-value { font-size: 14px; color: var(--text-primary); }
+        .project-clips {
+            display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: start; margin-top: 40px;
+        }
+        .project-clips .section-title { grid-column: 1 / -1; }
+        .clip-box {
+            border: 2px solid var(--primary-red); background: rgba(20, 20, 20, 0.8); overflow: hidden;
+        }
+        .clip-box h3 {
+            font-family: 'Orbitron', sans-serif; font-size: 12px; color: var(--primary-red);
+            letter-spacing: 2px; padding: 12px 16px; margin: 0; border-bottom: 1px solid var(--border-color);
+        }
+        .clip-box video { width: 100%; display: block; vertical-align: top; }
+        .clip-box.desktop video { aspect-ratio: 16/9; object-fit: cover; }
+        .clip-box.mobile { max-width: 200px; }
+        .clip-box.mobile video { aspect-ratio: 9/19; object-fit: contain; background: #000; }
+        .project-clips-mobile-only { grid-template-columns: 1fr; }
+        .project-clips-mobile-only .clip-box.mobile { max-width: 280px; justify-self: start; }
+        @media (max-width: 768px) {
+            .project-clips, .project-clips-mobile-only { grid-template-columns: 1fr; }
+            .clip-box.mobile, .project-clips-mobile-only .clip-box.mobile { max-width: 100%; }
+            .project-info-grid { grid-template-columns: 1fr; }
+            .project-title { font-size: 32px; }
+            .project-hero-image { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="project-detail-page">
+        <div class="project-header">
+            <a href="/" class="back-btn"><span>←</span> ОБАДЕТЕ СЕ КЪМ ПОРТФОЛИО</a>
+            <div class="client-badge">
+                <span class="label">КЛИЕНТ:</span>
+                <span class="name">PHYTOLIFE</span>
+                <span class="client-logo">PHYTOLIFE NUTRACEUTICALS</span>
+            </div>
+            <div class="project-title-section">
+                <h1 class="project-title">PhytoLife Nutraceuticals</h1>
+                <p class="project-subtitle">E-COMMERCE • ЗДРАВЕ И ХРАНИТЕЛНИ ДОБАВКИ</p>
+            </div>
+        </div>
+        
+        <div class="project-content">
+            <!-- Hero: Desktop video -->
+            <div class="project-hero-image">
+                <video autoplay muted loop playsinline>
+                    <source src="/phytolife-desktop.mp4" type="video/mp4">
+                </video>
+            </div>
+            
+            <div class="project-info-grid">
+                <div class="project-description-section">
+                    <p class="project-description" style="margin-bottom: 20px; padding: 12px 16px; background: rgba(255, 87, 87, 0.08); border-left: 3px solid var(--primary-red);">
+                        <strong>Колаборация:</strong> Проектът е реализиран в колаборация между мен и ApexDigital.
+                    </p>
+                    <h2 class="section-title">За проекта</h2>
+                    <p class="project-description">
+                        PhytoLife е онлайн бизнес, специализиран в търговията с фармацевтични продукти, натурални добавки и статии за здравето. Предлагат широка гама от продукти, достъпни чрез лесна за използване онлайн платформа.
+                    </p>
+                    <h2 class="section-title">Цел на проекта</h2>
+                    <p class="project-description">
+                        Целта беше да се разшири продуктовата оферта на PhytoLife и да се подобри онлайн видимостта им за увеличаване на продажбите. В това число: създаване на лесна за навигация e-commerce уебсайт, SEO оптимизация за целеви ключови думи в нишата на здравето и внедряване на съдържателна стратегия с фокус върху здравни ръководства и ползи от продуктите.
+                    </p>
+                    <h2 class="section-title">Взети стъпки</h2>
+                    <p class="project-description">
+                        Проведе се задълбочен пазарен анализ за идентифициране на ключови думи и тенденции в сферата на натуралните добавки. Проектира се и разработи безпроблемна e-commerce платформа, оптимизирана за потребителско изживяване, с разширени филтри за търсене, сигурни опции за плащане и подробни продуктови страници. Внедри се солидна SEO стратегия – on-page и техническо SEO, целево създаване на съдържание и кампании за изграждане на линкове за подобряване на класирането в търсачките. Създаде се цялостен маркетингов план с блогове и здравни ръководства, пригодени към нуждите на клиента. Съдържанието се промотира чрез социални мрежи и имейл кампании. Стратегиите се наблюдаваха и усъвършенстваха чрез анализ, за да се гарантира непрекъснато подобрение и съответствие с целите на клиента.
+                    </p>
+                    <h2 class="section-title">Резултати</h2>
+                    <p class="project-description">
+                        В резултат на предприетите действия PhytoLife постигна 80% увеличение на органичния трафик в рамките на една година. Неговото продуктово портфолио нарасна от само 3 артикула до над 3 000, а конверсионните нива значително се подобриха, като постигнаха високи класирания за „натурални добавки онлайн“ и други свързани ключови думи.
+                    </p>
+                </div>
+                <div class="project-meta">
+                    <div class="meta-item">
+                        <div class="meta-label">КЛИЕНТ</div>
+                        <div class="meta-value">PhytoLife Nutraceuticals</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">КОЛАБОРАЦИЯ</div>
+                        <div class="meta-value">Pavlin Moinov & ApexDigital</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">РОЛЯ</div>
+                        <div class="meta-value">E-commerce, SEO, съдържание, маркетинг</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile clip (under meta tab) -->
+            <div class="project-clips project-clips-mobile-only">
+                <h2 class="section-title">MOBILE ПРЕГЛЕД</h2>
+                <div class="clip-box mobile">
+                    <h3>MOBILE</h3>
+                    <video autoplay muted loop playsinline>
+                        <source src="/phytolife-mobile.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

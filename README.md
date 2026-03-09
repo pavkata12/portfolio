@@ -80,14 +80,19 @@ portfolio/
 └── README.md           # Documentation
 ```
 
-## Customization Guide
+## Customization Guide (for theme buyers)
+
+**Single config:** Edit `src/config/site.ts` for name, tagline, hero slogan, email, phone, GitHub username, skills, and organization. Set `VITE_GITHUB_USERNAME` in `.env` for Level/Achievements (or it falls back to the value in `site.ts`).
+
+**Selling this as a theme?** See [THEME-SELLING.md](THEME-SELLING.md) for where to sell it, what to prepare, and a checklist.
 
 ### 1. Update Profile Information
-In `index.html`, find the `.profile-info` section and update:
-- `LUZ WINTFRIEDER` → Your name
-- `WEB DEVELOPER` → Your occupation
-- `LEGACY AI` → Your organization/company
-- Add your profile image by replacing `profile.jpg`
+In `src/config/site.ts` update:
+- `name` → Your full name
+- `tagline` → Your occupation (e.g. "Web Developer")
+- `organization` → Your company or "FREELANCE"
+- `heroSlogan`, `email`, `phone`, `githubUsername`, `skills`
+- Add your profile images in `/public`: `profile.jpg`, `profile-corporate.png`
 
 ### 2. Update Achievements
 Find the `.achievement-list` section and modify achievements with:

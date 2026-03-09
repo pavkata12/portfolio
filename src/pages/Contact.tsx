@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, Github, ArrowLeft } from "lucide-react";
+import { siteConfig, githubUrl } from "@/config/site";
 
 const Contact = () => {
   return (
@@ -31,32 +32,32 @@ const Contact = () => {
 
             <div className="space-y-4">
               <a
-                href="tel:+359884823842"
+                href={`tel:${siteConfig.phone.replace(/\s/g, "")}`}
                 className="flex items-center gap-3 w-full border border-border hover:border-primary/60 bg-black/30 px-4 py-3 transition-colors group"
               >
                 <Phone className="w-5 h-5 text-primary shrink-0" />
                 <span className="font-mono text-sm text-foreground group-hover:text-primary transition-colors">
-                  +359 884 823 842
+                  {siteConfig.phone}
                 </span>
               </a>
               <a
-                href="mailto:pavkamoinov69@gmail.com"
+                href={`mailto:${siteConfig.email}`}
                 className="flex items-center gap-3 w-full border border-border hover:border-primary/60 bg-black/30 px-4 py-3 min-h-[48px] transition-colors group touch-manipulation"
               >
                 <Mail className="w-5 h-5 text-primary shrink-0" />
                 <span className="font-mono text-sm text-foreground group-hover:text-primary transition-colors truncate">
-                  pavkamoinov69@gmail.com
+                  {siteConfig.email}
                 </span>
               </a>
               <a
-                href="https://github.com/pavkata12"
+                href={githubUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 w-full border border-border hover:border-primary/60 bg-black/30 px-4 py-3 min-h-[48px] transition-colors group touch-manipulation"
               >
                 <Github className="w-5 h-5 text-primary shrink-0" />
                 <span className="font-mono text-sm text-foreground group-hover:text-primary transition-colors">
-                  github.com/pavkata12
+                  github.com/{siteConfig.githubUsername}
                 </span>
               </a>
             </div>

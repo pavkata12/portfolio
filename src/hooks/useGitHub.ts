@@ -1,11 +1,8 @@
 import { useState, useEffect } from "react";
+import { siteConfig } from "@/config/site";
 
-// Read from .env and trim (remove quotes/spaces); restart dev server after changing .env
 function getGitHubUsername(): string {
-  const raw = import.meta.env.VITE_GITHUB_USERNAME;
-  if (typeof raw !== "string") return "pavlinmoinov";
-  const trimmed = raw.trim().replace(/^["']|["']$/g, "");
-  return trimmed || "pavlinmoinov";
+  return siteConfig.githubUsername;
 }
 
 const GITHUB_HEADERS: HeadersInit = {

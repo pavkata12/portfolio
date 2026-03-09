@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { siteConfig } from "@/config/site";
 
 type CorporateHeaderProps = {
   activeTab: string;
@@ -19,7 +20,7 @@ const CorporateHeader = ({ activeTab, onTabChange, onOpenProfile }: CorporateHea
   return (
     <header className="h-14 shrink-0 bg-slate-800/95 backdrop-blur border-b border-slate-700 flex items-center justify-between px-4 sm:px-6 safe-area-top">
       <Link to="/" className="text-slate-100 font-semibold text-lg tracking-tight hover:text-white transition-colors">
-        Pavlin Moinov
+        {siteConfig.name}
       </Link>
       <nav className="hidden sm:flex items-center gap-8">
         {navItems.map((item) => (

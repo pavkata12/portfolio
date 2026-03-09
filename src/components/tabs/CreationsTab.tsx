@@ -55,37 +55,32 @@ const projects: Project[] = [
     mobileVideoMp4: "/orthodent-mobile.mp4",
   },
   {
-    title: "E-COMMERCE PLATFORM",
-    type: "VUE APPLICATION",
+    title: "DOM NA PODWALU",
+    type: "HISTORIC ACCOMMODATION • LUBLIN",
     description:
-      "A full-stack e-commerce application built with Vue.js, Node.js, and MongoDB. Features include real-time inventory, payment processing, and admin dashboard.",
-    image: "/whale.jpg",
+      "Уебсайт за историческо настаняване в Лублин – съчетание от исторически чар и съвременен комфорт с онлайн система за резервации за туристи и бизнес пътуващи.",
+    image: "/placeholder.svg",
     link: "#",
-    detailPage: null,
+    detailPage: "/project-dom-na-podwalu.html",
+    desktopVideoMp4: "/domnapodwalu-desktop.mp4",
+    mobileVideoMp4: "/domnapodwalu-mobile.mp4",
   },
   {
-    title: "API GATEWAY SERVICE",
-    type: "NODE.JS API",
+    title: "PHYTOLIFE NUTRACEUTICALS",
+    type: "E-COMMERCE • HEALTH & SUPPLEMENTS",
     description:
-      "Scalable REST API with authentication, rate limiting, and real-time features. Built with Express and Socket.io for high-performance applications.",
-    image: "/whale.jpg",
+      "Онлайн бизнес за фармацевтични продукти и натурални добавки. Разширена продуктова гама, SEO видимост и съдържателна стратегия за здравни ръководства.",
+    image: "/placeholder.svg",
     link: "#",
-    detailPage: null,
-  },
-  {
-    title: "DATA VISUALIZATION TOOL",
-    type: "D3.JS PROJECT",
-    description:
-      "Interactive data visualization dashboard with real-time updates. Transform complex data into beautiful, understandable visual representations.",
-    image: "/whale.jpg",
-    link: "#",
-    detailPage: null,
+    detailPage: "/project-phytolife.html",
+    desktopVideoMp4: "/phytolife-desktop.mp4",
+    mobileVideoMp4: "/phytolife-mobile.mp4",
   },
 ];
 
 const angleStep = 360 / projects.length;
 
-/** Video with poster; on error shows poster. srcMp4 = optional MP4 за iPhone (Safari не поддържа WebM). tapToPlay за блокиран autoplay. */
+/** Video with poster; on error shows poster. src = webm (optional), srcMp4 = MP4 (used on iOS or when no webm). tapToPlay за блокиран autoplay. */
 const VideoWithFallback = ({
   src,
   srcMp4,
@@ -94,7 +89,7 @@ const VideoWithFallback = ({
   aspectClass,
   tapToPlay = false,
 }: {
-  src: string;
+  src?: string;
   srcMp4?: string;
   poster: string;
   className?: string;
@@ -153,7 +148,7 @@ const VideoWithFallback = ({
         onError={() => setFailed(true)}
       >
         {srcMp4 && <source src={srcMp4} type="video/mp4" />}
-        <source src={src} type="video/webm" />
+        {src && <source src={src} type="video/webm" />}
       </video>
       {tapToPlay && showTapOverlay && (
         <button
@@ -289,7 +284,7 @@ const CreationsTab = () => {
         <p className="font-body text-[9px] sm:text-[10px] text-gray-200 leading-relaxed min-h-[32px] sm:min-h-[38px] overflow-hidden line-clamp-3">
           {project.description}
         </p>
-        {project.desktopVideo && project.mobileVideo ? (
+        {(project.desktopVideo || project.desktopVideoMp4) && (project.mobileVideo || project.mobileVideoMp4) ? (
           <div className={`flex gap-2 mt-3 ${isNarrow ? "flex-col items-center" : ""}`}>
             {!isNarrow && (
               <div className="flex-1 min-w-0">

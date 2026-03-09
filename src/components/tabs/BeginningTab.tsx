@@ -1,23 +1,31 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useAudio } from "@/contexts/AudioContext";
+import { siteConfig, githubUrl } from "@/config/site";
 
 const BeginningTab = () => {
   const { isCyber } = useTheme();
+  const { heroSoundEnabled } = useAudio();
 
   return (
     <div className={`animate-fade-in min-h-full relative ${!isCyber ? "corporate-content" : ""}`}>
       {/* Hero – cyber: центриран слоган; corporate: като референция – текст вляво, снимка вдясно + бутони + stats */}
       {isCyber ? (
         <section
-          className="relative z-10 flex min-h-[40vh] sm:min-h-[60vh] lg:min-h-[85vh] flex-col items-center justify-start pt-6 sm:pt-12 md:pt-16 px-4 sm:px-6 text-center"
+          className="relative z-10 flex min-h-[28vh] sm:min-h-[60vh] lg:min-h-[85vh] flex-col items-center justify-start pt-4 sm:pt-12 md:pt-16 px-4 sm:px-6 text-center overflow-hidden hero-cyber-bg"
           aria-label="Hero"
         >
-          <div className="w-full max-w-4xl">
-            <p className="font-slogan text-xl sm:text-2xl md:text-3xl lg:text-5xl text-primary drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] leading-snug">
-              Build things that matter.
-            </p>
-          </div>
+          <video
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            autoPlay
+            muted={!heroSoundEnabled}
+            loop
+            playsInline
+            aria-hidden
+          >
+            <source src="/hero-cyber.mp4" type="video/mp4" />
+          </video>
         </section>
       ) : (
         <section
@@ -27,7 +35,7 @@ const BeginningTab = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 lg:gap-12 min-h-0 lg:min-h-[60vh] items-stretch px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto">
             <div className="relative z-20 flex flex-col justify-center order-2 lg:order-1 pt-0 pb-4 sm:py-4 lg:py-4 mb-64 sm:mb-80 lg:mb-0">
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-amber-400 leading-tight mb-3 sm:mb-4">
-              Pavlin Moinov is right here!
+              {siteConfig.name} is right here!
             </h1>
             <p className="text-slate-300 text-base sm:text-xl leading-relaxed mb-5 sm:mb-8 max-w-xl">
               С опит в full-stack разработка превръщам идеи в стабилни приложения – Vue.js, Node.js, Python, real-time системи и production-ready решения.
@@ -71,7 +79,7 @@ const BeginningTab = () => {
           >
             <img
               src="/profile-corporate.png"
-              alt="Pavlin Moinov"
+              alt={siteConfig.name}
               className="h-full w-auto object-contain object-bottom object-right"
             />
           </div>
@@ -222,7 +230,7 @@ const BeginningTab = () => {
                 <li>+359 884 823 842</li>
                 <li><a href="mailto:pavkamoinov@abv.bg" className="text-red-400 hover:underline">pavkamoinov@abv.bg</a></li>
                 <li><a href="https://simracingacademy.eu" target="_blank" rel="noopener noreferrer" className="text-red-400 hover:underline">simracingacademy.eu</a></li>
-                <li><a href="https://github.com/pavkata12" target="_blank" rel="noopener noreferrer" className="text-red-400 hover:underline">GitHub</a></li>
+                <li><a href={githubUrl()} target="_blank" rel="noopener noreferrer" className="text-red-400 hover:underline">GitHub</a></li>
                 <li>Плевен, България</li>
               </ul>
             </section>

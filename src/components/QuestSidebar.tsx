@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Trophy, Star, Check, Volume2, Music, Settings, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
+import { Trophy, Star, Check, Volume2, Music, Video, Settings, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
 import { useGitHubRepos } from "@/hooks/useGitHub";
 import { useAudio } from "@/contexts/AudioContext";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -8,7 +8,7 @@ type QuestSidebarProps = { drawer?: boolean };
 
 const QuestSidebar = ({ drawer }: QuestSidebarProps) => {
   const { repos, loading, error } = useGitHubRepos();
-  const { soundEffectsEnabled, musicEnabled, toggleSoundEffects, toggleMusic } = useAudio();
+  const { soundEffectsEnabled, musicEnabled, heroSoundEnabled, toggleSoundEffects, toggleMusic, toggleHeroSound } = useAudio();
   const { isCyber, toggleCyberfication } = useTheme();
   const [visualSettingsOpen, setVisualSettingsOpen] = useState(false);
   const latestRepo = repos.length > 0 ? repos[0] : null;
@@ -50,7 +50,7 @@ const QuestSidebar = ({ drawer }: QuestSidebarProps) => {
   }
 
   return (
-    <aside className={`${drawer ? "w-full" : "w-64 shrink-0"} border-l border-border/80 flex flex-col overflow-y-auto bg-black/40 backdrop-blur-md`}>
+    <aside className={`${drawer ? "w-full" : "w-64 shrink-0"} border-l border-border/80 flex flex-col overflow-y-auto cyber-sidebar-bg backdrop-blur-md`}>
       <div className="border-b border-border/80 rounded-lg m-2 shadow-xl shadow-black/30 bg-black/50 backdrop-blur-md border border-white/10">
         <div className="bg-primary/90 px-4 py-2 flex items-center justify-between rounded-t-lg">
           <span className="font-display text-[10px] tracking-widest text-primary-foreground font-bold">LATEST REPO</span>
@@ -116,7 +116,8 @@ const QuestSidebar = ({ drawer }: QuestSidebarProps) => {
       {/* Settings */}
       <div className="flex-1" />
       <div className="border-t border-border">
-        <SettingRow icon={Volume2} label="SOUND EFFECTS" enabled={soundEffectsEnabled} onClick={toggleSoundEffects} />
+        <SettingRow icon={Video} label="HERO SOUND EFFECT" enabled={heroSoundEnabled} onClick={toggleHeroSound} />
+        <SettingRow icon={Volume2} label="CLICK SOUND EFFECT" enabled={soundEffectsEnabled} onClick={toggleSoundEffects} />
         <SettingRow icon={Music} label="MUSIC" enabled={musicEnabled} onClick={toggleMusic} />
         <div>
           <SettingRow

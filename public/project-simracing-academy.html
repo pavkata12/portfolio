@@ -80,10 +80,15 @@
             background: rgba(20, 20, 20, 0.5);
         }
         
-        .project-hero-image img {
+        .project-hero-image img,
+        .project-hero-image video {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+        
+        .project-hero-image video {
+            display: block;
         }
         
         .project-info-grid {
@@ -276,11 +281,19 @@
             object-fit: contain;
             background: #000;
         }
+        .project-clips-mobile-only {
+            grid-template-columns: 1fr;
+        }
+        .project-clips-mobile-only .clip-box.mobile {
+            max-width: 280px;
+            justify-self: start;
+        }
         @media (max-width: 768px) {
-            .project-clips {
+            .project-clips, .project-clips-mobile-only {
                 grid-template-columns: 1fr;
             }
-            .clip-box.mobile {
+            .clip-box.mobile,
+            .project-clips-mobile-only .clip-box.mobile {
                 max-width: 100%;
             }
         }
@@ -318,9 +331,12 @@
         </div>
         
         <div class="project-content">
-            <!-- Hero Image -->
+            <!-- Hero: Desktop video -->
             <div class="project-hero-image">
-                <img src="simracing-academy.png" alt="Sim Racing Academy">
+                <video autoplay muted loop playsinline>
+                    <source src="/simracing-desktop.mp4" type="video/mp4">
+                    <source src="/simracing-desktop.webm" type="video/webm">
+                </video>
             </div>
             
             <!-- Info Grid -->
@@ -395,16 +411,9 @@
                 </div>
             </div>
             
-            <!-- Desktop & Mobile clips -->
-            <div class="project-clips">
-                <h2 class="section-title">VIDEO PREVIEW</h2>
-                <div class="clip-box desktop">
-                    <h3>DESKTOP</h3>
-                    <video autoplay muted loop playsinline>
-                        <source src="/simracing-desktop.mp4" type="video/mp4">
-                        <source src="/simracing-desktop.webm" type="video/webm">
-                    </video>
-                </div>
+            <!-- Mobile clip (under meta tab) -->
+            <div class="project-clips project-clips-mobile-only">
+                <h2 class="section-title">MOBILE PREVIEW</h2>
                 <div class="clip-box mobile">
                     <h3>MOBILE</h3>
                     <video autoplay muted loop playsinline>

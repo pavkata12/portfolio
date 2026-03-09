@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { siteConfig, githubUrl } from "@/config/site";
 
 const LOAD_STEP_MS = 35;
 const LOAD_STEP = 0.5;
@@ -49,28 +50,28 @@ const ProfileSidebar = ({ drawer }: ProfileSidebarProps) => {
           <div className="rounded-full overflow-hidden border-2 border-slate-600 w-32 h-32 mx-auto">
             <img
               src={profileImage}
-              alt="Pavlin Moinov"
+              alt={siteConfig.name}
               className="w-full h-full object-cover"
               onError={(e) => {
                 if (profileImage !== "/profile.jpg") e.currentTarget.src = "/profile.jpg";
               }}
             />
           </div>
-          <h2 className="mt-4 text-center text-slate-100 font-semibold text-lg">Pavlin Moinov</h2>
-          <p className="text-center text-sky-400 text-sm">Web Developer</p>
+          <h2 className="mt-4 text-center text-slate-100 font-semibold text-lg">{siteConfig.name}</h2>
+          <p className="text-center text-sky-400 text-sm">{siteConfig.tagline}</p>
         </div>
         <div className="px-4 pb-4 space-y-4 flex-1">
           <div>
             <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Contact</h3>
             <ul className="text-sm text-slate-300 space-y-1">
-              <li><a href="tel:+359884823842" className="hover:text-sky-400 transition-colors">+359 884 823 842</a></li>
-              <li><a href="mailto:pavkamoinov69@gmail.com" className="hover:text-sky-400 transition-colors truncate block">pavkamoinov69@gmail.com</a></li>
-              <li><a href="https://github.com/pavkata12" target="_blank" rel="noopener noreferrer" className="hover:text-sky-400 transition-colors">GitHub</a></li>
+              <li><a href={`tel:${siteConfig.phone.replace(/\s/g, "")}`} className="hover:text-sky-400 transition-colors">{siteConfig.phone}</a></li>
+              <li><a href={`mailto:${siteConfig.email}`} className="hover:text-sky-400 transition-colors truncate block">{siteConfig.email}</a></li>
+              <li><a href={githubUrl()} target="_blank" rel="noopener noreferrer" className="hover:text-sky-400 transition-colors">GitHub</a></li>
             </ul>
           </div>
           <div>
             <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Skills</h3>
-            <p className="text-sm text-slate-300">Vue.js, Node.js, Python, React, TypeScript, SQLite, PWA</p>
+            <p className="text-sm text-slate-300">{siteConfig.skills}</p>
           </div>
           <a
             href="/contact"
@@ -84,12 +85,12 @@ const ProfileSidebar = ({ drawer }: ProfileSidebarProps) => {
   }
 
   return (
-    <aside className={`${drawer ? "w-full" : "w-56 shrink-0"} border-r border-border/80 flex flex-col overflow-y-auto bg-black/40 backdrop-blur-sm`}>
+    <aside className={`${drawer ? "w-full" : "w-56 shrink-0"} border-r border-border/80 flex flex-col overflow-y-auto cyber-sidebar-bg backdrop-blur-sm`}>
       <div className="p-4">
         <div className="border border-primary overflow-hidden">
           <img
             src={profileImage}
-            alt="Pavlin Moinov"
+            alt={siteConfig.name}
             className="w-full aspect-square object-cover"
             onError={(e) => {
               if (profileImage !== "/profile.jpg") e.currentTarget.src = "/profile.jpg";
@@ -98,9 +99,9 @@ const ProfileSidebar = ({ drawer }: ProfileSidebarProps) => {
         </div>
       </div>
       <div className="px-4 space-y-4 flex-1">
-        <ProfileField label="name" value="PAVLIN MOINOV" />
-        <ProfileField label="occupation" value="WEB DEVELOPER" />
-        <ProfileField label="corporation" value="FREELANCE" />
+        <ProfileField label="name" value={siteConfig.name.toUpperCase()} />
+        <ProfileField label="occupation" value={siteConfig.tagline.toUpperCase()} />
+        <ProfileField label="corporation" value={siteConfig.organization.toUpperCase()} />
         <div className="space-y-1">
           <span className="font-mono text-[9px] text-gray-200 tracking-widest">availability</span>
           <a
@@ -127,7 +128,7 @@ const ProfileSidebar = ({ drawer }: ProfileSidebarProps) => {
       </div>
       <div className="p-4 border-t border-border mt-4">
         <span className="font-mono text-[9px] text-gray-200 tracking-widest">Motto</span>
-        <p className="font-body text-xs text-gray-200 mt-1 leading-relaxed">Build things that matter.</p>
+        <p className="font-body text-xs text-gray-200 mt-1 leading-relaxed">{siteConfig.heroSlogan}</p>
       </div>
     </aside>
   );
