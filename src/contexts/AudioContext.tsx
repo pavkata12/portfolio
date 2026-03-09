@@ -22,9 +22,10 @@ export const AudioProvider = ({ children }: { children: ReactNode }) => {
   const [musicEnabled, setMusicEnabled] = useState(false);
   const [heroSoundEnabled, setHeroSoundEnabled] = useState(() => {
     try {
-      return localStorage.getItem(HERO_SOUND_KEY) === "1";
+      const saved = localStorage.getItem(HERO_SOUND_KEY);
+      return saved !== "0";
     } catch {
-      return false;
+      return true;
     }
   });
   const beepRef = useRef<HTMLAudioElement | null>(null);

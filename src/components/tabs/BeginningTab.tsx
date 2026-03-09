@@ -2,11 +2,13 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useAudio } from "@/contexts/AudioContext";
+import { useLoaderComplete } from "@/contexts/LoaderContext";
 import { siteConfig, githubUrl } from "@/config/site";
 
 const BeginningTab = () => {
   const { isCyber } = useTheme();
   const { heroSoundEnabled } = useAudio();
+  const loaderComplete = useLoaderComplete();
 
   return (
     <div className={`animate-fade-in min-h-full relative ${!isCyber ? "corporate-content" : ""}`}>
@@ -19,7 +21,7 @@ const BeginningTab = () => {
           <video
             className="absolute inset-0 w-full h-full object-cover pointer-events-none"
             autoPlay
-            muted={!heroSoundEnabled}
+            muted={!heroSoundEnabled || !loaderComplete}
             loop
             playsInline
             aria-hidden
@@ -71,7 +73,7 @@ const BeginningTab = () => {
           </div>
           {/* Снимка bash в долния десен ъгъл на hero (section е full width) */}
           <div
-            className="absolute bottom-0 right-0 z-0 w-64 h-64 sm:w-80 sm:h-80 lg:w-[22rem] lg:h-[22rem] xl:w-[28rem] xl:h-[28rem] flex items-end justify-end pointer-events-none"
+            className="absolute bottom-0 right-0 z-0 w-80 h-80 sm:w-96 sm:h-96 lg:w-[28rem] lg:h-[28rem] xl:w-[34rem] xl:h-[34rem] flex items-end justify-end pointer-events-none"
             style={{
               maskImage: "linear-gradient(to left, transparent 0%, black 35%)",
               WebkitMaskImage: "linear-gradient(to left, transparent 0%, black 35%)",

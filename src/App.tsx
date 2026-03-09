@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AudioProvider } from "@/contexts/AudioContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { LoaderProvider } from "@/contexts/LoaderContext";
 import MatrixLoader from "@/components/MatrixLoader";
 import PillChoice from "@/components/PillChoice";
 import Index from "./pages/Index";
@@ -33,7 +34,7 @@ const App = () => {
             {showPillChoice ? (
               <PillChoice onChoose={onPillChoose} />
             ) : (
-              <>
+              <LoaderProvider loaderComplete={!showLoader}>
                 <AudioProvider>
                   <Routes>
                     <Route path="/" element={<Index />} />
@@ -44,7 +45,7 @@ const App = () => {
                 {showLoader && (
                   <MatrixLoader onComplete={onLoaderComplete} />
                 )}
-              </>
+              </LoaderProvider>
             )}
           </ThemeProvider>
         </BrowserRouter>
