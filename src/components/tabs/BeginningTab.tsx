@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -9,6 +10,14 @@ const BeginningTab = () => {
   const { isCyber } = useTheme();
   const { heroSoundEnabled } = useAudio();
   const loaderComplete = useLoaderComplete();
+  const [showCorporateHeroText, setShowCorporateHeroText] = useState(false);
+
+  // При превключване към corporate тема – ресет на текста, за да изчака отново правилното време от видеото
+  useEffect(() => {
+    if (!isCyber) {
+      setShowCorporateHeroText(false);
+    }
+  }, [isCyber]);
 
   return (
     <div className={`animate-fade-in min-h-full relative ${!isCyber ? "corporate-content" : ""}`}>
@@ -46,6 +55,11 @@ const BeginningTab = () => {
             loop
             playsInline
             aria-hidden
+            onTimeUpdate={(e) => {
+              if (!showCorporateHeroText && e.currentTarget.currentTime >= 6.5) {
+                setShowCorporateHeroText(true);
+              }
+            }}
           >
             <source src="/hero-corporate.mp4" type="video/mp4" />
           </video>
@@ -55,6 +69,7 @@ const BeginningTab = () => {
             aria-hidden
           />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 lg:gap-12 min-h-0 lg:min-h-[60vh] items-stretch px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto relative z-10">
+            {showCorporateHeroText && (
             <div className="relative z-20 flex flex-col justify-center order-2 lg:order-1 pt-0 pb-4 sm:py-4 lg:py-4 animate-hero-text-delayed">
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-amber-400 leading-tight mb-2 sm:mb-3">
               {siteConfig.name} is right here!
@@ -89,6 +104,7 @@ const BeginningTab = () => {
               </div>
             </div>
           </div>
+            )}
             <div className="relative order-1 lg:order-2 min-h-0 sm:min-h-0 lg:min-h-[200px]" aria-hidden />
           </div>
         </section>

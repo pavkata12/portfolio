@@ -161,10 +161,10 @@
   animation: fade-in 0.4s ease-out forwards;
 }
 
-/* Corporate hero – текстът се появява след 7s, плавно */
+/* Corporate hero – текстът се показва с плавен fade-in (времето се контролира от JS спрямо видео-то) */
 .animate-hero-text-delayed {
   opacity: 0;
-  animation: fade-in 1.2s ease-out 7s forwards;
+  animation: fade-in 1.2s ease-out forwards;
 }
 
 /* Cyber hero: background image, no overlay */
