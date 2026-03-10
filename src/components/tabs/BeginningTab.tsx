@@ -11,33 +11,86 @@ const BeginningTab = () => {
   const { heroSoundEnabled } = useAudio();
   const loaderComplete = useLoaderComplete();
   const [showCorporateHeroText, setShowCorporateHeroText] = useState(false);
+  const [showCyberHeroText, setShowCyberHeroText] = useState(false);
 
-  // При превключване към corporate тема – ресет на текста, за да изчака отново правилното време от видеото
+  // При превключване на тема – ресет на hero текста
   useEffect(() => {
     if (!isCyber) {
       setShowCorporateHeroText(false);
+    } else {
+      setShowCyberHeroText(false);
     }
   }, [isCyber]);
 
   return (
     <div className={`animate-fade-in min-h-full relative ${!isCyber ? "corporate-content" : ""}`}>
-      {/* Hero – cyber: центриран слоган; corporate: като референция – текст вляво, снимка вдясно + бутони + stats */}
+      {/* Hero – cyber и corporate: един и същ layout – видео фон, текст вляво, червен/amber текст според тема */}
       {isCyber ? (
         <section
-          className="relative z-10 flex min-h-[28vh] sm:min-h-[60vh] lg:min-h-[85vh] flex-col items-center justify-start pt-4 sm:pt-12 md:pt-16 px-4 sm:px-6 text-center overflow-hidden hero-cyber-bg"
+          className="relative z-10 w-full min-h-[55vh] sm:min-h-[65vh] lg:min-h-[80vh] pt-4 pb-8 sm:pt-6 sm:pb-12 lg:py-16 overflow-hidden bg-black"
           aria-label="Hero"
         >
           <video
             key="hero-cyber"
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            className="absolute inset-0 w-full h-full object-cover object-center lg:object-cover lg:object-[center_20%] pointer-events-none"
             autoPlay
             muted={!heroSoundEnabled || !loaderComplete}
             loop
             playsInline
             aria-hidden
+            onTimeUpdate={(e) => {
+              if (!showCyberHeroText && e.currentTarget.currentTime >= 6.5) {
+                setShowCyberHeroText(true);
+              }
+            }}
           >
-            <source src="/hero-cyber.mp4" type="video/mp4" />
+            <source src="/hero-corporate.mp4" type="video/mp4" />
           </video>
+          {showCyberHeroText && (
+            <div
+              className="absolute inset-0 bg-gradient-to-br from-red-950/80 via-red-950/70 to-black/85 pointer-events-none animate-hero-text-delayed z-[5]"
+              aria-hidden
+            />
+          )}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 lg:gap-12 min-h-0 lg:min-h-[60vh] items-stretch px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto relative z-10">
+            {showCyberHeroText && (
+            <div className="relative z-20 flex flex-col justify-center order-2 lg:order-1 pt-0 pb-4 sm:py-4 lg:py-4 animate-hero-text-delayed">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-primary leading-tight mb-2 sm:mb-3">
+              {siteConfig.name} is right here!
+            </h1>
+            <p className="text-gray-300 text-sm sm:text-base leading-relaxed mb-4 sm:mb-6 max-w-xl">
+              С опит в full-stack разработка превръщам идеи в стабилни приложения – Vue.js, Node.js, Python, real-time системи и production-ready решения.
+            </p>
+            <div className="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center gap-1.5 min-h-[40px] min-w-[120px] px-4 py-2.5 text-sm bg-primary text-primary-foreground font-semibold rounded hover:opacity-90 transition-opacity active:scale-[0.98] touch-manipulation cursor-pointer"
+              >
+                CHAT WITH ME
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center gap-1.5 min-h-[40px] min-w-[120px] px-4 py-2.5 text-sm border-2 border-primary text-primary font-semibold rounded hover:bg-primary/10 transition-colors active:scale-[0.98] touch-manipulation cursor-pointer"
+              >
+                START A PROJECT
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+            <div className="flex gap-4 sm:gap-8">
+              <div>
+                <p className="text-xl sm:text-3xl font-bold text-primary">100+</p>
+                <p className="text-gray-400 text-xs sm:text-sm">Projects delivered</p>
+              </div>
+              <div>
+                <p className="text-xl sm:text-3xl font-bold text-primary">Full-Stack</p>
+                <p className="text-gray-400 text-xs sm:text-sm">Vue, Node, Python</p>
+              </div>
+            </div>
+          </div>
+            )}
+            <div className="relative order-1 lg:order-2 min-h-0 sm:min-h-0 lg:min-h-[200px]" aria-hidden />
+          </div>
         </section>
       ) : (
         <section
