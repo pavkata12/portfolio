@@ -63,11 +63,12 @@ const BeginningTab = () => {
           >
             <source src="/hero-corporate.mp4" type="video/mp4" />
           </video>
-          {/* Тъмен overlay за четливост на текста */}
-          <div
-            className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-slate-800/75 to-blue-950/80 pointer-events-none"
-            aria-hidden
-          />
+          {showCorporateHeroText && (
+            <div
+              className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-slate-800/75 to-blue-950/80 pointer-events-none animate-hero-text-delayed z-[5]"
+              aria-hidden
+            />
+          )}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 lg:gap-12 min-h-0 lg:min-h-[60vh] items-stretch px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto relative z-10">
             {showCorporateHeroText && (
             <div className="relative z-20 flex flex-col justify-center order-2 lg:order-1 pt-0 pb-4 sm:py-4 lg:py-4 animate-hero-text-delayed">
