@@ -7,6 +7,8 @@ import { useLoaderComplete } from "@/contexts/LoaderContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { siteConfig, githubUrl } from "@/config/site";
 
+const MOBILE_BREAKPOINT = 768;
+
 const BeginningTab = ({ onTabChange }: { onTabChange?: (tab: string) => void }) => {
   const { isCyber } = useTheme();
   const { t } = useLanguage();
@@ -17,6 +19,15 @@ const BeginningTab = ({ onTabChange }: { onTabChange?: (tab: string) => void }) 
   const [showCyberHeroBtn1, setShowCyberHeroBtn1] = useState(false);
   const [showCyberHeroBtn2, setShowCyberHeroBtn2] = useState(false);
   const [showCv, setShowCv] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
+    const update = () => setIsMobile(mql.matches);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
+  }, []);
 
   // При превключване на тема – ресет на hero текста и бутони
   useEffect(() => {
@@ -35,27 +46,28 @@ const BeginningTab = ({ onTabChange }: { onTabChange?: (tab: string) => void }) 
       {isCyber ? (
         <>
         <section
-          className="relative z-10 w-full min-h-[55vh] sm:min-h-[65vh] lg:min-h-[80vh] pt-4 pb-8 sm:pt-6 sm:pb-12 lg:py-16 overflow-hidden bg-black"
+          className="relative z-10 w-full min-h-[85vh] sm:min-h-[65vh] lg:min-h-[80vh] pt-4 pb-20 sm:pt-6 sm:pb-12 lg:py-16 overflow-hidden bg-transparent"
           aria-label="Hero"
         >
           {/* Only mount video after loader finishes so it starts from 0, not ~4s in */}
           {loaderComplete && (
             <video
-              key="hero-cyber"
-              className="absolute inset-0 w-full h-full object-cover object-center lg:object-cover lg:object-[center_20%] pointer-events-none"
+              key={isMobile ? "hero-cyber-mobile" : "hero-cyber"}
+              className={`absolute inset-0 w-full h-full object-center pointer-events-none ${isMobile ? "object-cover" : "object-contain"}`}
               autoPlay
-              muted={!heroSoundEnabled}
+              muted={isMobile || !heroSoundEnabled}
               loop
               playsInline
+              preload="auto"
               aria-hidden
               onTimeUpdate={(e) => {
-                const t = e.currentTarget.currentTime;
-                if (t >= 2 && !showCyberHeroBtn1) setShowCyberHeroBtn1(true);
-                if (t >= 4 && !showCyberHeroBtn2) setShowCyberHeroBtn2(true);
-                if (t >= 1 && !showCyberHeroText) setShowCyberHeroText(true);
+                const time = e.currentTarget.currentTime;
+                if (time >= (isMobile ? 0.3 : 1) && !showCyberHeroText) setShowCyberHeroText(true);
+                if (time >= (isMobile ? 0.6 : 2) && !showCyberHeroBtn1) setShowCyberHeroBtn1(true);
+                if (time >= (isMobile ? 1 : 4) && !showCyberHeroBtn2) setShowCyberHeroBtn2(true);
               }}
             >
-              <source src="/hero-cyber.mp4" type="video/mp4" />
+              <source src={isMobile ? "/hero-cyber-mobile.mp4" : "/hero-cyber.mp4"} type="video/mp4" />
             </video>
           )}
           <div className="absolute inset-0 flex flex-col z-10">
@@ -67,8 +79,38 @@ const BeginningTab = ({ onTabChange }: { onTabChange?: (tab: string) => void }) 
                 </h1>
               </div>
             )}
-            {/* Cyber hero buttons: on top of the holograms – left (GITHUB) pops at 4s, right (PROJECTS) at 2s */}
-            <div className="absolute left-[18%] sm:left-[20%] lg:left-[22%] top-[66%] -translate-y-1/2 z-30">
+            {/* Mobile: buttons centered at bottom */}
+            <div className="sm:hidden absolute bottom-6 left-0 right-0 flex justify-center gap-3 px-4 z-30">
+              {onTabChange ? (
+                <>
+                  <div className={`flex transition-all duration-500 ease-out ${showCyberHeroBtn2 ? "hero-btn-pop-left" : "opacity-0 translate-x-[-24px]"}`}>
+                    <a href={githubUrl()} target="_blank" rel="noopener noreferrer" className="hero-cyber-btn-outline inline-flex items-center justify-center gap-1.5 min-h-[40px] min-w-[100px] px-3 py-2.5 text-xs font-semibold rounded active:scale-[0.98] touch-manipulation cursor-pointer">
+                      {t("hero.github")} <ArrowRight className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                  <div className={`flex transition-all duration-500 ease-out ${showCyberHeroBtn1 ? "hero-btn-pop-right" : "opacity-0 translate-x-[24px]"}`}>
+                    <button type="button" onClick={() => onTabChange("creations")} className="hero-cyber-btn-outline inline-flex items-center justify-center gap-1.5 min-h-[40px] min-w-[100px] px-3 py-2.5 text-xs font-semibold rounded active:scale-[0.98] touch-manipulation cursor-pointer">
+                      {t("hero.creations")} <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className={`flex transition-all duration-500 ease-out ${showCyberHeroBtn2 ? "hero-btn-pop-left" : "opacity-0 translate-x-[-24px]"}`}>
+                    <Link to="/contact" className="hero-cyber-btn-outline inline-flex items-center justify-center gap-1.5 min-h-[40px] min-w-[100px] px-3 py-2.5 text-xs font-semibold rounded active:scale-[0.98] touch-manipulation cursor-pointer">
+                      {t("hero.startProject")} <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                  <div className={`flex transition-all duration-500 ease-out ${showCyberHeroBtn1 ? "hero-btn-pop-right" : "opacity-0 translate-x-[24px]"}`}>
+                    <Link to="/contact" className="hero-cyber-btn-outline inline-flex items-center justify-center gap-1.5 min-h-[40px] min-w-[100px] px-3 py-2.5 text-xs font-semibold rounded active:scale-[0.98] touch-manipulation cursor-pointer">
+                      {t("hero.chat")} <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </>
+              )}
+            </div>
+            {/* Desktop: buttons on holograms */}
+            <div className="hidden sm:block absolute left-[18%] sm:left-[20%] lg:left-[22%] top-[66%] -translate-y-1/2 z-30">
               {onTabChange ? (
                 <div className={`flex transition-all duration-500 ease-out ${showCyberHeroBtn2 ? "hero-btn-pop-left" : "opacity-0 translate-x-[-24px]"}`}>
                   <a
@@ -93,7 +135,7 @@ const BeginningTab = ({ onTabChange }: { onTabChange?: (tab: string) => void }) 
                 </div>
               )}
             </div>
-            <div className="absolute right-[10%] sm:right-[12%] lg:right-[14%] top-[73%] -translate-y-1/2 z-30">
+            <div className="hidden sm:block absolute right-[10%] sm:right-[12%] lg:right-[14%] top-[73%] -translate-y-1/2 z-30">
               {onTabChange ? (
                 <div className={`flex transition-all duration-500 ease-out ${showCyberHeroBtn1 ? "hero-btn-pop-right" : "opacity-0 translate-x-[24px]"}`}>
                   <button
@@ -124,17 +166,17 @@ const BeginningTab = ({ onTabChange }: { onTabChange?: (tab: string) => void }) 
           className="w-full px-4 sm:px-6 lg:px-10 py-4 sm:py-5 bg-black/40 backdrop-blur-sm border-t border-white/10"
           aria-label="About"
         >
-          <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-center sm:justify-between gap-x-4 sm:gap-x-6 gap-y-2 text-center sm:text-left">
+          <div className="max-w-6xl mx-auto flex flex-col sm:flex-row flex-wrap items-center justify-center sm:justify-between gap-y-3 sm:gap-y-0 gap-x-4 sm:gap-x-6 text-center sm:text-left">
             <div className="flex items-baseline gap-2 sm:gap-3">
-              <span className="hero-cyber-text text-lg sm:text-2xl font-bold">{t("hero.fullStack")}</span>
-              <span className="hero-cyber-text text-xs sm:text-sm opacity-90">{t("hero.tech")}</span>
+              <span className="hero-cyber-text text-base sm:text-2xl font-bold">{t("hero.fullStack")}</span>
+              <span className="hero-cyber-text text-[10px] sm:text-sm opacity-90">{t("hero.tech")}</span>
             </div>
-            <p className="hero-cyber-text text-xs sm:text-sm max-w-xl flex-1 min-w-0">
+            <p className="hero-cyber-text text-[10px] sm:text-sm max-w-xl flex-1 min-w-0 order-last sm:order-none w-full sm:w-auto">
               {t("hero.description")}
             </p>
             <div className="flex flex-wrap items-center justify-center sm:justify-end gap-x-3 sm:gap-x-4 gap-y-0">
-              <span className="hero-cyber-text text-xs sm:text-sm font-medium">{t("hero.from")}</span>
-              <span className="hero-cyber-text text-xs sm:text-sm opacity-90">{t("hero.experience")}</span>
+              <span className="hero-cyber-text text-[10px] sm:text-sm font-medium">{t("hero.from")}</span>
+              <span className="hero-cyber-text text-[10px] sm:text-sm opacity-90">{t("hero.experience")}</span>
             </div>
           </div>
         </section>
