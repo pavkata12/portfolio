@@ -7,13 +7,13 @@ const env = import.meta.env;
 
 export const siteConfig = {
   /** Your full name – used in header, profile, alt texts */
-  name: "Pavlin Moinov",
-  /** Short tagline under name (e.g. "Web Developer", "Full-Stack Dev") */
+  name: "Павлин Мойнов",
+  /** Short tagline under name (e.g. "Web Developer", "Full-Stack Dev") – also see i18n profile.tagline */
   tagline: "Web Developer",
   /** Organization/company (e.g. "FREELANCE", "ACME Corp") – shown in cyber profile */
   organization: "FREELANCE",
-  /** Hero slogan on the main page (cyber theme); also "Motto" in profile */
-  heroSlogan: "Pavlin Moynov",
+  /** Hero slogan on the main page (cyber theme); also "Motto" in profile – see i18n profile.mottoText for translated */
+  heroSlogan: "Павлин Мойнов",
   /** Contact */
   email: "pavkamoinov69@gmail.com",
   phone: "+359 884 823 842",

@@ -1,4 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const useIsNarrow = () => {
   const [isNarrow, setIsNarrow] = useState(false);
@@ -13,26 +15,25 @@ const useIsNarrow = () => {
 };
 
 type Project = {
-  title: string;
-  type: string;
-  description: string;
+  id: string;
+  titleKey: string;
+  typeKey: string;
+  descKey: string;
   image: string;
   link: string;
   detailPage: string | null;
   desktopVideo?: string;
   mobileVideo?: string;
-  /** MP4 за iPhone (Safari не поддържа WebM). Ако има – използва се за възпроизвеждане на iOS. */
   desktopVideoMp4?: string;
   mobileVideoMp4?: string;
 };
 
-/* Same projects as HTML portfolio script.js */
 const projects: Project[] = [
   {
-    title: "SIM RACING ACADEMY",
-    type: "EDUCATIONAL PLATFORM",
-    description:
-      "Professional academy for sim racing competitions in Pleven. Learn to race like a pro with our simulators and instructors.",
+    id: "simracing",
+    titleKey: "projects.simracing.title",
+    typeKey: "projects.simracing.type",
+    descKey: "projects.simracing.description",
     image: "/simracing-academy.png",
     link: "https://simracingacademy.eu",
     detailPage: "/project-simracing-academy.html",
@@ -42,10 +43,10 @@ const projects: Project[] = [
     mobileVideoMp4: "/simracing-mobile.mp4",
   },
   {
-    title: "ORTHODENT",
-    type: "WEB PORTAL FOR DENTAL DICOM IMAGES",
-    description:
-      "Web platform for a dental clinic: management of DICOM and 3D (STL) images, portals for doctors, patients and laboratories, secure sharing links, and a public site with CMS. Integrated with dental imaging equipment via Orthanc DICOM server. Vue 3, Node.js, Express, PostgreSQL.",
+    id: "orthodent",
+    titleKey: "projects.orthodent.title",
+    typeKey: "projects.orthodent.type",
+    descKey: "projects.orthodent.description",
     image: "/orthodent.png",
     link: "https://orthodent.bg",
     detailPage: "/project-orthodent.html",
@@ -55,10 +56,10 @@ const projects: Project[] = [
     mobileVideoMp4: "/orthodent-mobile.mp4",
   },
   {
-    title: "DOM NA PODWALU",
-    type: "HISTORIC ACCOMMODATION • LUBLIN",
-    description:
-      "Уебсайт за историческо настаняване в Лублин – съчетание от исторически чар и съвременен комфорт с онлайн система за резервации за туристи и бизнес пътуващи.",
+    id: "domnapodwalu",
+    titleKey: "projects.domnapodwalu.title",
+    typeKey: "projects.domnapodwalu.type",
+    descKey: "projects.domnapodwalu.description",
     image: "/placeholder.svg",
     link: "#",
     detailPage: "/project-dom-na-podwalu.html",
@@ -66,10 +67,10 @@ const projects: Project[] = [
     mobileVideoMp4: "/domnapodwalu-mobile.mp4",
   },
   {
-    title: "PHYTOLIFE NUTRACEUTICALS",
-    type: "E-COMMERCE • HEALTH & SUPPLEMENTS",
-    description:
-      "Онлайн бизнес за фармацевтични продукти и натурални добавки. Разширена продуктова гама, SEO видимост и съдържателна стратегия за здравни ръководства.",
+    id: "phytolife",
+    titleKey: "projects.phytolife.title",
+    typeKey: "projects.phytolife.type",
+    descKey: "projects.phytolife.description",
     image: "/placeholder.svg",
     link: "#",
     detailPage: "/project-phytolife.html",
@@ -155,9 +156,9 @@ const VideoWithFallback = ({
           type="button"
           onClick={handleTapToPlay}
           className="absolute inset-0 flex items-center justify-center bg-black/60 text-primary font-display text-[10px] tracking-wider"
-          aria-label="Play video"
+          aria-label={tapToPlayLabel}
         >
-          Tap to play
+          {tapToPlayLabel}
         </button>
       )}
     </div>
@@ -179,6 +180,8 @@ const getCardStyle = (index: number, isCenter: boolean, isSide: boolean, transla
 };
 
 const CreationsTab = () => {
+  const { t } = useLanguage();
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [rotationOffset, setRotationOffset] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -239,7 +242,7 @@ const CreationsTab = () => {
   const handleCardClick = (index: number, project: Project) => {
     if (index === currentIndex) {
       if (project.detailPage) {
-        window.location.href = project.detailPage;
+        navigate(`/project/${project.id}`);
       } else if (project.link && project.link !== "#") {
         window.open(project.link, "_blank");
       }
@@ -258,7 +261,7 @@ const CreationsTab = () => {
 
     return (
       <div
-        key={project.title}
+        key={project.id}
         role="button"
         tabIndex={clickableOnMobile ? 0 : -1}
         onClick={() => handleCardClick(index, project)}
@@ -279,25 +282,26 @@ const CreationsTab = () => {
           marginTop: -CARD_H / 2,
         }}
       >
-        <h3 className="font-display text-[12px] sm:text-[15px] text-primary mb-1 leading-tight">{project.title}</h3>
-        <p className="font-mono text-[8px] sm:text-[9px] text-gray-200 tracking-widest mb-2">{project.type}</p>
+        <h3 className="font-display text-[12px] sm:text-[15px] text-primary mb-1 leading-tight">{t(project.titleKey)}</h3>
+        <p className="font-mono text-[8px] sm:text-[9px] text-gray-200 tracking-widest mb-2">{t(project.typeKey)}</p>
         <p className="font-body text-[9px] sm:text-[10px] text-gray-200 leading-relaxed min-h-[32px] sm:min-h-[38px] overflow-hidden line-clamp-3">
-          {project.description}
+          {t(project.descKey)}
         </p>
         {(project.desktopVideo || project.desktopVideoMp4) && (project.mobileVideo || project.mobileVideoMp4) ? (
           <div className={`flex gap-2 mt-3 ${isNarrow ? "flex-col items-center" : ""}`}>
             {!isNarrow && (
               <div className="flex-1 min-w-0">
-                <p className="font-mono text-[8px] text-primary tracking-widest mb-1">DESKTOP</p>
+                <p className="font-mono text-[8px] text-primary tracking-widest mb-1">{t("creations.desktop")}</p>
                 {isCenter ? (
                   <VideoWithFallback
-                    key={`${project.title}-desktop`}
+                    key={`${project.id}-desktop`}
                     src={project.desktopVideo}
                     srcMp4={project.desktopVideoMp4}
                     poster={project.image}
                     aspectClass="w-full aspect-video"
                     className="w-full aspect-video rounded border border-border object-cover"
                     tapToPlay={isNarrow}
+                    tapToPlayLabel={t("creations.tapToPlay")}
                   />
                 ) : (
                   <div
@@ -308,16 +312,17 @@ const CreationsTab = () => {
               </div>
             )}
             <div className={isNarrow ? "flex flex-col items-center shrink-0" : "flex-1 max-w-[120px] min-w-0"}>
-              <p className="font-mono text-[8px] text-primary tracking-widest mb-1">MOBILE</p>
+              <p className="font-mono text-[8px] text-primary tracking-widest mb-1">{t("creations.mobile")}</p>
               {isCenter ? (
                 <VideoWithFallback
-                  key={`${project.title}-mobile`}
+                  key={`${project.id}-mobile`}
                   src={project.mobileVideo}
                   srcMp4={project.mobileVideoMp4}
                   poster={project.image}
                   aspectClass={isNarrow ? "w-[152px] aspect-[9/19] h-[320px]" : "w-full aspect-[9/19]"}
                   className={isNarrow ? "w-[152px] h-[320px] rounded border border-border object-contain bg-black" : "w-full aspect-[9/19] rounded border border-border object-contain bg-black"}
                   tapToPlay={isNarrow}
+                  tapToPlayLabel={t("creations.tapToPlay")}
                 />
               ) : (
                 <div
@@ -331,7 +336,7 @@ const CreationsTab = () => {
           <div className="mt-3 h-[100px] rounded border border-border overflow-hidden flex items-center justify-center bg-secondary">
             <img
               src={project.image}
-              alt={project.title}
+              alt={t(project.titleKey)}
               className="w-full h-full object-cover"
               onError={(e) => {
                 e.currentTarget.style.display = "none";
@@ -344,14 +349,14 @@ const CreationsTab = () => {
           onClick={(e) => {
             e.stopPropagation();
             if (project.detailPage) {
-              window.location.href = project.detailPage;
+              navigate(`/project/${project.id}`);
             } else if (project.link && project.link !== "#") {
               window.open(project.link, "_blank");
             }
           }}
           className="mt-3 w-full px-5 py-1.5 border border-primary text-primary font-display text-[9px] tracking-widest hover:bg-primary hover:text-primary-foreground active:scale-[0.98] transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
         >
-          {project.detailPage ? "VIEW DETAILS" : "VIEW LINK"}
+          {project.detailPage ? t("creations.viewDetails") : t("creations.viewLink")}
         </button>
       </div>
     );
@@ -359,7 +364,7 @@ const CreationsTab = () => {
 
   return (
     <div className="p-4 sm:p-6 pb-12 animate-fade-in creations-tab flex flex-col items-center justify-center w-full min-h-[calc(100vh-6rem)] sm:min-h-[calc(100vh-7rem)]">
-      <h2 className="font-display text-xs sm:text-sm tracking-widest text-center text-gray-200 mb-3 sm:mb-4">CREATIONS</h2>
+      <h2 className="font-display text-xs sm:text-sm tracking-widest text-center text-gray-200 mb-3 sm:mb-4">{t("creations.title")}</h2>
 
       {/* Slider centered in viewport */}
       <div className="flex items-center gap-2 sm:gap-4 justify-center min-h-[580px] sm:min-h-[520px] w-full max-w-[calc(100vw-2rem)]">
@@ -367,7 +372,7 @@ const CreationsTab = () => {
           type="button"
           onClick={goPrev}
           className="creations-arrow shrink-0 w-10 h-10 sm:w-12 sm:h-12 border border-primary bg-primary/10 text-primary flex items-center justify-center text-xl sm:text-2xl hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded touch-manipulation"
-          aria-label="Previous project"
+          aria-label={t("creations.prev")}
         >
           ‹
         </button>
@@ -393,7 +398,7 @@ const CreationsTab = () => {
           type="button"
           onClick={goNext}
           className="creations-arrow shrink-0 w-10 h-10 sm:w-12 sm:h-12 border border-primary bg-primary/10 text-primary flex items-center justify-center text-xl sm:text-2xl hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded touch-manipulation"
-          aria-label="Next project"
+          aria-label={t("creations.next")}
         >
           ›
         </button>

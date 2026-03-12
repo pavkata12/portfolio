@@ -1,11 +1,8 @@
 import { useEffect, useState, useRef } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const MATRIX_CHARS = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-const SENTENCE = "Hi im your Full Stack Developer";
-const WORDS = SENTENCE.split(" ");
-const LETTER_COUNT = SENTENCE.length;
 const EXTRA_COLS = 2;
-const COLS = LETTER_COUNT + EXTRA_COLS;
 const CHARS_PER_COL = 70;
 const DURATION_RAIN_MS = 2000;
 const MIN_DURATION_MS = 4500;
@@ -17,8 +14,11 @@ const getRandomChar = () =>
   MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
 
 export default function MatrixLoader({ onComplete }: { onComplete: () => void }) {
+  const { t } = useLanguage();
+  const sentence = t("loader.matrixSentence");
+  const words = sentence.split(" ");
   const [phase, setPhase] = useState<"rain" | "snap" | "hold">("rain");
-  const [columns, setColumns] = useState<{ id: number; chars: string[]; isLetter: boolean }[]>([]);
+  const [columns, setColumns] = useState<{ id: number; chars: string[] }[]>([]);
   const [sentenceVisible, setSentenceVisible] = useState(false);
   const [sentenceVisibleLongEnough, setSentenceVisibleLongEnough] = useState(false);
   const [videoReady, setVideoReady] = useState(false);
@@ -27,14 +27,15 @@ export default function MatrixLoader({ onComplete }: { onComplete: () => void })
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
+    const letterCount = sentence.length;
+    const cols = letterCount + EXTRA_COLS;
     setColumns(
-      Array.from({ length: COLS }, (_, i) => ({
+      Array.from({ length: cols }, (_, i) => ({
         id: i,
-        isLetter: i < LETTER_COUNT,
         chars: Array.from({ length: CHARS_PER_COL }, () => getRandomChar()),
       }))
     );
-  }, []);
+  }, [sentence]);
 
   // Preload background video as soon as loader mounts
   useEffect(() => {
@@ -101,13 +102,13 @@ export default function MatrixLoader({ onComplete }: { onComplete: () => void })
   }, [sentenceVisible]);
 
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black overflow-hidden">
+    <div className="matrix-loader fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black overflow-hidden">
       {/* Matrix rain columns - keeps running behind text */}
       <div
         className="absolute inset-0 grid gap-px"
         style={{
           fontFamily: "Share Tech Mono, monospace",
-          gridTemplateColumns: `repeat(${COLS}, 1fr)`,
+          gridTemplateColumns: `repeat(${columns.length}, 1fr)`,
           contain: "layout style paint",
         }}
       >
@@ -133,12 +134,12 @@ export default function MatrixLoader({ onComplete }: { onComplete: () => void })
               opacity: sentenceVisible ? 1 : 0,
             }}
           >
-            {WORDS.map((word, wordIndex) => {
-              const letterOffset = WORDS.slice(0, wordIndex).join(" ").length;
+            {words.map((word, wordIndex) => {
+              const letterOffset = words.slice(0, wordIndex).join(" ").length;
               return (
                 <span
                   key={wordIndex}
-                  className="inline-flex whitespace-nowrap text-[clamp(0.7rem,3.5vw,2rem)] sm:text-[clamp(1rem,4vw,2rem)] font-semibold tracking-wider text-[hsl(var(--primary))] drop-shadow-[0_0_12px_hsl(var(--primary))]"
+                  className="matrix-loader-sentence inline-flex whitespace-nowrap text-[clamp(0.7rem,3.5vw,2rem)] sm:text-[clamp(1rem,4vw,2rem)] font-semibold tracking-wider"
                   style={{
                     opacity: sentenceVisible ? 1 : 0,
                     transform: sentenceVisible ? "translateY(0)" : "translateY(-18px)",
@@ -179,10 +180,10 @@ function MatrixColumn({ chars }: { chars: string[] }) {
   const duration = 2 + Math.random() * 0.6;
   return (
     <div
-      className="flex flex-col w-full text-[10px] sm:text-[11px] leading-tight text-[hsl(var(--primary))] whitespace-nowrap min-h-[200vh]"
+      className="matrix-loader-rain flex flex-col w-full text-[10px] sm:text-[11px] leading-tight whitespace-nowrap min-h-[200vh]"
       style={{
         animation: `matrixFall ${duration}s linear ${delay}s infinite`,
-        textShadow: "0 0 6px hsl(var(--primary))",
+        textShadow: "0 0 6px hsl(0, 72%, 51%)",
         willChange: "transform",
       }}
     >

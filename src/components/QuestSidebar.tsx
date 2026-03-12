@@ -3,6 +3,7 @@ import { Trophy, Star, Check, Volume2, Music, Video, Settings, ExternalLink, Che
 import { useGitHubRepos } from "@/hooks/useGitHub";
 import { useAudio } from "@/contexts/AudioContext";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type QuestSidebarProps = { drawer?: boolean };
 
@@ -10,6 +11,7 @@ const QuestSidebar = ({ drawer }: QuestSidebarProps) => {
   const { repos, loading, error } = useGitHubRepos();
   const { soundEffectsEnabled, musicEnabled, heroSoundEnabled, toggleSoundEffects, toggleMusic, toggleHeroSound } = useAudio();
   const { isCyber, toggleCyberfication } = useTheme();
+  const { t } = useLanguage();
   const [visualSettingsOpen, setVisualSettingsOpen] = useState(false);
   const latestRepo = repos.length > 0 ? repos[0] : null;
 
@@ -18,8 +20,8 @@ const QuestSidebar = ({ drawer }: QuestSidebarProps) => {
       <aside className={`${drawer ? "w-full" : "w-64 shrink-0"} border-l border-slate-700 flex flex-col overflow-y-auto bg-slate-800/60 backdrop-blur-md`}>
         <div className="p-4">
           <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">GitHub</h3>
-          {loading && <p className="text-sm text-slate-400">Loading…</p>}
-          {error && <p className="text-sm text-amber-400">Could not load.</p>}
+          {loading && <p className="text-sm text-slate-400">{t("repos.loading")}</p>}
+          {error && <p className="text-sm text-amber-400">{t("repos.error")}</p>}
           {!loading && latestRepo && !error && (
             <div className="rounded-lg border border-slate-600 bg-slate-800/80 p-4 space-y-3">
               <p className="font-medium text-slate-100">{latestRepo.name}</p>
@@ -30,7 +32,7 @@ const QuestSidebar = ({ drawer }: QuestSidebarProps) => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-sm text-sky-400 hover:text-sky-300"
               >
-                View on GitHub <ExternalLink className="w-3.5 h-3.5" />
+                {t("repos.viewOnGitHub")} <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
           )}
@@ -42,7 +44,7 @@ const QuestSidebar = ({ drawer }: QuestSidebarProps) => {
             onClick={toggleCyberfication}
             className="w-full py-2 text-center text-xs text-slate-400 hover:text-sky-400 transition-colors"
           >
-            Switch to cyber style
+            {t("corp.cyberStyle")}
           </button>
         </div>
       </aside>
@@ -53,23 +55,23 @@ const QuestSidebar = ({ drawer }: QuestSidebarProps) => {
     <aside className={`${drawer ? "w-full" : "w-64 shrink-0"} border-l border-border/80 flex flex-col overflow-y-auto cyber-sidebar-bg backdrop-blur-md`}>
       <div className="border-b border-border/80 rounded-lg m-2 shadow-xl shadow-black/30 bg-black/50 backdrop-blur-md border border-white/10">
         <div className="bg-primary/90 px-4 py-2 flex items-center justify-between rounded-t-lg">
-          <span className="font-display text-[10px] tracking-widest text-primary-foreground font-bold">LATEST REPO</span>
+          <span className="font-display text-[10px] tracking-widest text-primary-foreground font-bold">{t("repos.title").toUpperCase()}</span>
         </div>
 
         <div className="p-4 space-y-4 rounded-b-lg">
           {loading && (
-            <p className="font-mono text-[9px] text-gray-200">Loading…</p>
+            <p className="font-mono text-[9px] text-gray-200">{t("repos.loading")}</p>
           )}
           {error && (
-            <p className="font-mono text-[9px] text-primary">Could not load repo.</p>
+            <p className="font-mono text-[9px] text-primary">{t("repos.error")}</p>
           )}
           {!loading && !latestRepo && !error && (
-            <p className="font-mono text-[9px] text-gray-200">No public repos.</p>
+            <p className="font-mono text-[9px] text-gray-200">{t("repos.empty")}</p>
           )}
           {latestRepo && (
             <>
               <div className="space-y-1">
-                <span className="font-mono text-[9px] text-primary tracking-widest">REPOSITORY</span>
+                <span className="font-mono text-[9px] text-primary tracking-widest">{t("repos.title").toUpperCase()}</span>
                 <p className="font-display text-sm tracking-wider text-foreground">{latestRepo.name}</p>
               </div>
 
@@ -105,7 +107,7 @@ const QuestSidebar = ({ drawer }: QuestSidebarProps) => {
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full border border-primary py-2 font-display text-[9px] tracking-widest text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
               >
-                OPEN ON GITHUB
+                {t("profile.openOnGitHub")}
                 <ExternalLink className="w-3 h-3" />
               </a>
             </>

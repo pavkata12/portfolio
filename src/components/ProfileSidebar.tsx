@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { siteConfig, githubUrl } from "@/config/site";
 
 const LOAD_STEP_MS = 35;
@@ -11,9 +12,10 @@ type ProfileSidebarProps = { drawer?: boolean };
 
 const ProfileSidebar = ({ drawer }: ProfileSidebarProps) => {
   const { isCyber } = useTheme();
+  const { t } = useLanguage();
   const [loadProgress, setLoadProgress] = useState(0);
   const [highlightOpenForHire, setHighlightOpenForHire] = useState(false);
-  const profileImage = isCyber ? "/profile.jpg" : "/profile-corporate.png";
+  const profileImage = isCyber ? "/profile.png" : "/profile-corporate.png";
 
   useEffect(() => {
     let progress = 0;
@@ -50,19 +52,19 @@ const ProfileSidebar = ({ drawer }: ProfileSidebarProps) => {
           <div className="rounded-full overflow-hidden border-2 border-slate-600 w-32 h-32 mx-auto">
             <img
               src={profileImage}
-              alt={siteConfig.name}
+              alt={t("site.name")}
               className="w-full h-full object-cover"
               onError={(e) => {
-                if (profileImage !== "/profile.jpg") e.currentTarget.src = "/profile.jpg";
+                if (profileImage !== "/profile.png") e.currentTarget.src = "/profile.png";
               }}
             />
           </div>
-          <h2 className="mt-4 text-center text-slate-100 font-semibold text-lg">{siteConfig.name}</h2>
-          <p className="text-center text-sky-400 text-sm">{siteConfig.tagline}</p>
+          <h2 className="mt-4 text-center text-slate-100 font-semibold text-lg">{t("site.name")}</h2>
+          <p className="text-center text-sky-400 text-sm">{t("profile.tagline")}</p>
         </div>
         <div className="px-4 pb-4 space-y-4 flex-1">
           <div>
-            <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Contact</h3>
+            <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{t("profile.contact")}</h3>
             <ul className="text-sm text-slate-300 space-y-1">
               <li><a href={`tel:${siteConfig.phone.replace(/\s/g, "")}`} className="hover:text-sky-400 transition-colors">{siteConfig.phone}</a></li>
               <li><a href={`mailto:${siteConfig.email}`} className="hover:text-sky-400 transition-colors truncate block">{siteConfig.email}</a></li>
@@ -70,14 +72,14 @@ const ProfileSidebar = ({ drawer }: ProfileSidebarProps) => {
             </ul>
           </div>
           <div>
-            <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Skills</h3>
+            <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{t("profile.skills")}</h3>
             <p className="text-sm text-slate-300">{siteConfig.skills}</p>
           </div>
           <a
             href="/contact"
             className="block w-full py-2.5 text-center text-sm font-medium text-sky-400 border border-sky-500/50 rounded-lg hover:bg-sky-500/10 transition-colors"
           >
-            Get in touch
+            {t("profile.getInTouch")}
           </a>
         </div>
       </aside>
@@ -90,20 +92,20 @@ const ProfileSidebar = ({ drawer }: ProfileSidebarProps) => {
         <div className="border border-primary overflow-hidden">
           <img
             src={profileImage}
-            alt={siteConfig.name}
+            alt={t("site.name")}
             className="w-full aspect-square object-cover"
             onError={(e) => {
-              if (profileImage !== "/profile.jpg") e.currentTarget.src = "/profile.jpg";
+              if (profileImage !== "/profile.png") e.currentTarget.src = "/profile.png";
             }}
           />
         </div>
       </div>
       <div className="px-4 space-y-4 flex-1">
-        <ProfileField label="name" value={siteConfig.name.toUpperCase()} />
-        <ProfileField label="occupation" value={siteConfig.tagline.toUpperCase()} />
-        <ProfileField label="corporation" value={siteConfig.organization.toUpperCase()} />
+        <ProfileField label={t("profile.name")} value={t("site.name").toUpperCase()} />
+        <ProfileField label={t("profile.occupation")} value={t("profile.tagline").toUpperCase()} />
+        <ProfileField label={t("profile.corporation")} value={siteConfig.organization.toUpperCase()} />
         <div className="space-y-1">
-          <span className="font-mono text-[9px] text-gray-200 tracking-widest">availability</span>
+          <span className="font-mono text-[9px] text-gray-200 tracking-widest">{t("profile.availability")}</span>
           <a
             href="/contact"
             className={`w-full border px-3 py-1.5 flex items-center justify-between transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
@@ -112,12 +114,12 @@ const ProfileSidebar = ({ drawer }: ProfileSidebarProps) => {
                 : "border-primary bg-primary/10 hover:opacity-90"
             }`}
           >
-            <span className="font-display text-[10px] tracking-wider text-primary">OPEN FOR HIRE</span>
+            <span className="font-display text-[10px] tracking-wider text-primary">{t("contact.openForHire")}</span>
             <span className="text-primary text-xs">⬡</span>
           </a>
           <div className="mt-2 pt-2 border-t border-border/60">
             <div className="flex items-center justify-between gap-1 mb-1">
-              <span className="font-display text-[9px] tracking-wider text-primary font-bold">Loading ..</span>
+              <span className="font-display text-[9px] tracking-wider text-primary font-bold">{t("profile.loadingLabel")}</span>
               <span className="font-display text-[9px] tracking-wider text-primary font-bold">{Math.round(loadProgress)}%</span>
             </div>
             <div className="border border-primary h-2 overflow-hidden bg-primary/20">
@@ -127,8 +129,8 @@ const ProfileSidebar = ({ drawer }: ProfileSidebarProps) => {
         </div>
       </div>
       <div className="p-4 border-t border-border mt-4">
-        <span className="font-mono text-[9px] text-gray-200 tracking-widest">Motto</span>
-        <p className="font-body text-xs text-gray-200 mt-1 leading-relaxed">{siteConfig.heroSlogan}</p>
+        <span className="font-mono text-[9px] text-gray-200 tracking-widest">{t("profile.motto")}</span>
+        <p className="font-body text-xs text-gray-200 mt-1 leading-relaxed">{t("profile.mottoText")}</p>
       </div>
     </aside>
   );

@@ -1,7 +1,9 @@
 import { Trophy, Star, GitFork, ExternalLink } from "lucide-react";
 import { useGitHubUser, useGitHubRepos, type GitHubRepo } from "@/hooks/useGitHub";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const AchievementsTab = () => {
+  const { t } = useLanguage();
   const { user, loading: userLoading } = useGitHubUser();
   const { repos, loading: reposLoading, error } = useGitHubRepos();
 
@@ -11,10 +13,9 @@ const AchievementsTab = () => {
 
   return (
     <div className="p-4 sm:p-6 space-y-6 sm:space-y-8 animate-fade-in">
-      <h2 className="font-display text-xs sm:text-sm tracking-widest text-center text-gray-200">achievements</h2>
+      <h2 className="font-display text-xs sm:text-sm tracking-widest text-center text-gray-200">{t("repos.title")}</h2>
 
       <div className="flex flex-wrap items-center gap-4 sm:gap-6 md:gap-8">
-        {/* Progress Circle - public repos count */}
         <div className="flex flex-col items-center gap-2">
           <div className="relative w-20 h-20">
             <svg className="w-20 h-20 -rotate-90" viewBox="0 0 80 80">
@@ -32,16 +33,16 @@ const AchievementsTab = () => {
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="font-display text-lg text-[hsl(var(--neon-green))]">
-                {userLoading ? "…" : `${repoCount}`}
+                {userLoading ? t("common.loading") : `${repoCount}`}
               </span>
             </div>
           </div>
-          <span className="font-mono text-[9px] text-gray-200 tracking-widest">PUBLIC REPOS</span>
+          <span className="font-mono text-[9px] text-gray-200 tracking-widest">{t("repos.publicRepos")}</span>
         </div>
 
         <div className="flex-1 space-y-3 min-w-0">
           <p className="font-body text-sm text-gray-200 leading-relaxed">
-            Level is tied to GitHub: one level per public repository. Achievements below are your public repositories.
+            {t("repos.levelTied")}
           </p>
           <a
             href={user ? `https://github.com/${user.login}?tab=repositories` : "https://github.com"}
@@ -49,26 +50,25 @@ const AchievementsTab = () => {
             rel="noopener noreferrer"
             className="inline-block border border-border px-4 py-2 font-display text-[10px] tracking-widest text-foreground hover:border-primary hover:bg-primary/10 active:scale-[0.98] transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
           >
-            VIEW ON GITHUB
+            {t("repos.viewOnGitHub")}
           </a>
         </div>
 
         <div className="flex flex-wrap gap-4 shrink-0">
-          <span className="font-mono text-[9px] text-[hsl(var(--neon-green))]">PUBLIC REPOSITORIES</span>
+          <span className="font-mono text-[9px] text-[hsl(var(--neon-green))]">{t("repos.publicRepos")}</span>
         </div>
       </div>
 
-      {/* Public repositories as achievements */}
       <div className="space-y-3">
-        <h3 className="font-mono text-[10px] text-gray-200 tracking-widest">PUBLIC REPOSITORIES</h3>
+        <h3 className="font-mono text-[10px] text-gray-200 tracking-widest">{t("repos.publicRepos")}</h3>
         {reposLoading && (
-          <p className="font-body text-sm text-gray-200">Loading repositories…</p>
+          <p className="font-body text-sm text-gray-200">{t("repos.loading")}</p>
         )}
         {error && (
-          <p className="font-body text-sm text-primary">Could not load repositories. Check VITE_GITHUB_USERNAME or try again later.</p>
+          <p className="font-body text-sm text-primary">{t("repos.error")}</p>
         )}
         {!reposLoading && !error && repos.length === 0 && (
-          <p className="font-body text-sm text-gray-200">No public repositories found.</p>
+          <p className="font-body text-sm text-gray-200">{t("repos.empty")}</p>
         )}
         {!reposLoading && repos.length > 0 && (
           <div className="space-y-4">

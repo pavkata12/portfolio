@@ -1,6 +1,7 @@
-import { Plus, User, ScrollText } from "lucide-react";
+import { User, ScrollText } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useGitHubUser } from "@/hooks/useGitHub";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type HudTopBarProps = {
   onOpenProfile?: () => void;
@@ -8,6 +9,7 @@ type HudTopBarProps = {
 };
 
 const HudTopBar = ({ onOpenProfile, onOpenQuest }: HudTopBarProps) => {
+  const { t, locale, setLocale } = useLanguage();
   const [serverTime, setServerTime] = useState("0:00");
   const [localTime, setLocalTime] = useState("00:00");
   const { user, loading, error } = useGitHubUser();
@@ -41,7 +43,7 @@ const HudTopBar = ({ onOpenProfile, onOpenQuest }: HudTopBarProps) => {
         ) : null}
       </div>
 
-      {/* Center - level и coins вляво, за да се виждат на тесен екран; скрол надясно за времета */}
+      {/* Center – level (брой репота), език и времета */}
       <div className="flex-1 min-w-0 flex items-center justify-start sm:justify-center gap-1.5 sm:gap-3 overflow-x-auto overflow-y-hidden py-1">
         <a
           href={user ? `https://github.com/${user.login}?tab=repositories` : "#"}
@@ -52,26 +54,31 @@ const HudTopBar = ({ onOpenProfile, onOpenQuest }: HudTopBarProps) => {
         >
           {loading ? "…" : error ? "!" : user !== null ? user.public_repos : "—"}
         </a>
-        <span className="font-display text-[9px] sm:text-[10px] tracking-widest text-gray-200 shrink-0">LEVEL</span>
-        <button
-          type="button"
-          className="hidden sm:flex w-5 h-5 border border-primary items-center justify-center text-primary hover:bg-primary/20 active:scale-95 transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded shrink-0"
-          aria-label="Add"
-        >
-          <Plus className="w-3 h-3" />
-        </button>
-        <span className="font-display text-sm sm:text-lg font-bold text-foreground shrink-0">
-          {loading ? "…" : user !== null ? (user.public_repos * 10).toLocaleString() : "—"}
-        </span>
-        <span className="font-display text-[9px] sm:text-[10px] tracking-widest text-gray-200 shrink-0">COINS</span>
-        <span className="font-mono text-[9px] sm:text-[10px] text-gray-200 shrink-0">SERVER:</span>
+        <span className="font-display text-[9px] sm:text-[10px] tracking-widest text-gray-200 shrink-0">{t("hud.level")}</span>
+        <div className="flex items-center gap-1 ml-1 shrink-0">
+          <button
+            type="button"
+            onClick={() => setLocale("bg")}
+            className={`font-mono text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded ${locale === "bg" ? "text-primary bg-primary/20" : "text-gray-400 hover:text-gray-200"}`}
+          >
+            BG
+          </button>
+          <button
+            type="button"
+            onClick={() => setLocale("en")}
+            className={`font-mono text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded ${locale === "en" ? "text-primary bg-primary/20" : "text-gray-400 hover:text-gray-200"}`}
+          >
+            EN
+          </button>
+        </div>
+        <span className="font-mono text-[9px] sm:text-[10px] text-gray-200 shrink-0">{t("hud.server")}</span>
         <span className="font-mono text-[9px] sm:text-[10px] text-primary shrink-0" title="Server time">{serverTime}</span>
-        <span className="font-mono text-[9px] sm:text-[10px] text-gray-200 shrink-0">LOCAL:</span>
+        <span className="font-mono text-[9px] sm:text-[10px] text-gray-200 shrink-0">{t("hud.local")}</span>
         <span className="font-mono text-[9px] sm:text-[10px] text-primary shrink-0" title="Local time">{localTime}</span>
       </div>
 
       {/* Right - само иконка quest */}
-      <div className="flex-shrink-0 w-10 flex items-center justify-end">
+      <div className="flex-shrink-0 flex items-center gap-1 w-10 sm:w-auto justify-end">
         {onOpenQuest ? (
           <button
             type="button"

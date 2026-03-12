@@ -172,6 +172,78 @@
   background: url("/hero-cyber.png") center center / cover no-repeat;
 }
 
+/* Cyber hero top line – geometric font + bright cyan neon glow (matches video name style) */
+.hero-cyber-greeting {
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
+  color: #00e5ff;
+  text-shadow:
+    0 0 4px #00e5ff,
+    0 0 12px rgba(0, 229, 255, 0.8),
+    0 0 24px rgba(0, 229, 255, 0.5),
+    0 0 40px rgba(0, 229, 255, 0.35);
+  letter-spacing: 0.05em;
+}
+
+/* Cyber hero body text – same cyan, softer glow */
+.hero-cyber-text {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+/* Cyber hero buttons – cyan by default, red on hover */
+.hero-cyber-btn {
+  background-color: #00e5ff;
+  color: #fff;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.hero-cyber-btn:hover {
+  background-color: hsl(0, 72%, 51%);
+  color: #fff;
+}
+.hero-cyber-btn-outline {
+  border: 2px solid #00e5ff;
+  color: #fff;
+  background: transparent;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.hero-cyber-btn-outline:hover {
+  border-color: hsl(0, 72%, 51%);
+  color: #fff;
+  background-color: hsl(0, 72%, 51%);
+}
+/* Pop-in from right (first button at 2s) / from left (second button at 4s) */
+@keyframes hero-btn-pop-right {
+  from {
+    opacity: 0;
+    transform: translateX(32px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+@keyframes hero-btn-pop-left {
+  from {
+    opacity: 0;
+    transform: translateX(-32px) scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+.hero-btn-pop-right {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  animation: hero-btn-pop-right 0.5s ease-out forwards;
+}
+.hero-btn-pop-left {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  animation: hero-btn-pop-left 0.5s ease-out forwards;
+}
+
 /* Glitch effect on hero text – flicker + RGB split + отместване */
 @keyframes text-flicker-bug {
   0%, 88%, 90%, 92%, 94%, 96%, 98%, 100% {
@@ -287,4 +359,23 @@
 }
 [data-theme="corporate"] .corporate-layout main {
   background: transparent;
+}
+
+/* Cyber theme – text that was red (primary) becomes white; "Hello I'm" stays cyan via .hero-cyber-greeting */
+[data-theme="cyber"] .text-primary {
+  color: #fff;
+}
+[data-theme="cyber"] .text-red-400 {
+  color: #fff;
+}
+[data-theme="cyber"] [class*="var(--primary)"][class*="text-"] {
+  color: #fff;
+}
+/* Loader always red */
+.matrix-loader-sentence {
+  color: hsl(0, 72%, 51%);
+  filter: drop-shadow(0 0 12px hsl(0, 72%, 51%));
+}
+.matrix-loader-rain {
+  color: hsl(0, 72%, 51%);
 }

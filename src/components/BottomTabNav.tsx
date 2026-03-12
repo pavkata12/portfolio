@@ -1,18 +1,20 @@
 import { useTheme } from "@/contexts/ThemeContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface BottomTabNavProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
 }
 
-const tabs = [
-  { id: "beginning", label: "BEGINNING", labelShort: "About" },
-  { id: "achievements", label: "ACHIEVEMENTS", labelShort: "Achievements" },
-  { id: "creations", label: "CREATIONS", labelShort: "Projects" },
+const tabIds = [
+  { id: "beginning", labelKey: "nav.beginning", labelShortKey: "nav.about" },
+  { id: "achievements", labelKey: "nav.repositories", labelShortKey: "nav.repositories" },
+  { id: "creations", labelKey: "nav.creations", labelShortKey: "nav.projects" },
 ];
 
 const BottomTabNav = ({ activeTab, onTabChange }: BottomTabNavProps) => {
   const { isCyber } = useTheme();
+  const { t } = useLanguage();
 
   if (!isCyber) {
     return (
@@ -20,7 +22,7 @@ const BottomTabNav = ({ activeTab, onTabChange }: BottomTabNavProps) => {
         className="sm:hidden h-14 flex items-stretch shrink-0 bg-slate-800/95 border-t border-slate-700"
         style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       >
-        {tabs.map((tab) => {
+        {tabIds.map((tab) => {
           const isActive = activeTab === tab.id;
           return (
             <button
@@ -32,7 +34,7 @@ const BottomTabNav = ({ activeTab, onTabChange }: BottomTabNavProps) => {
                 isActive ? "text-sky-400 border-sky-400" : "text-slate-400 border-transparent hover:text-slate-200"
               }`}
             >
-              {tab.labelShort}
+              {t(tab.labelShortKey)}
             </button>
           );
         })}
@@ -45,7 +47,7 @@ const BottomTabNav = ({ activeTab, onTabChange }: BottomTabNavProps) => {
       className="h-14 sm:h-16 border-t border-border/80 flex items-stretch shrink-0 bg-black/40 backdrop-blur-sm"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
-      {tabs.map((tab) => {
+      {tabIds.map((tab) => {
         const isActive = activeTab === tab.id;
         return (
           <button
@@ -64,15 +66,15 @@ const BottomTabNav = ({ activeTab, onTabChange }: BottomTabNavProps) => {
                 isActive ? "text-primary" : "text-gray-200"
               }`}
             >
-              {tab.label}
+              {t(tab.labelKey)}
             </span>
             {isActive && (
               <span className="font-mono text-[7px] sm:text-[8px] text-primary">✕</span>
             )}
             <p className="font-mono text-[9px] text-gray-200 max-w-[120px] text-center leading-tight hidden lg:block">
-              {tab.id === "beginning" && "EXPLORE THE STARTING POINT AND OVERVIEW"}
-              {tab.id === "achievements" && "TRACK MILESTONES AND ACCOMPLISHMENTS"}
-              {tab.id === "creations" && "EXPLORE PROJECTS AND CREATIVE WORKS"}
+              {tab.id === "beginning" && t("nav.exploreStart")}
+              {tab.id === "achievements" && t("nav.reposDesc")}
+              {tab.id === "creations" && t("nav.exploreProjects")}
             </p>
           </button>
         );

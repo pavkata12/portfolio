@@ -18,7 +18,7 @@ const Index = () => {
 
   const renderTab = () => {
     switch (activeTab) {
-      case "beginning": return <BeginningTab />;
+      case "beginning": return <BeginningTab onTabChange={setActiveTab} />;
       case "achievements": return <AchievementsTab />;
       case "creations": return <CreationsTab />;
       default: return <BeginningTab />;
