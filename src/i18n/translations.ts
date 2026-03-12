@@ -89,6 +89,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "profile.mottoText": "Павлин Мойнов",
     // Loader
     "loader.matrixSentence": "Аз съм вашият Full Stack разработчик",
+    "loader.skip": "Пропусни",
     // CV section
     "cv.button": "CV",
     "cv.professionalSummary": "ПРОФЕСИОНАЛНО РЕЗЮМЕ",
@@ -303,6 +304,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "profile.mottoText": "Pavlin Moinov",
     // Loader
     "loader.matrixSentence": "I'm your Full Stack Developer",
+    "loader.skip": "Skip",
     "cv.button": "CV",
     "cv.professionalSummary": "PROFESSIONAL SUMMARY",
     "cv.professionalExperience": "PROFESSIONAL EXPERIENCE",

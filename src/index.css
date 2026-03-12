@@ -371,11 +371,18 @@
 [data-theme="cyber"] [class*="var(--primary)"][class*="text-"] {
   color: #fff;
 }
-/* Loader always red */
+/* Loader: red by default, blue for corporate */
 .matrix-loader-sentence {
   color: hsl(0, 72%, 51%);
   filter: drop-shadow(0 0 12px hsl(0, 72%, 51%));
 }
+.matrix-loader-corporate .matrix-loader-sentence {
+  color: rgb(56, 189, 248);
+  filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.8));
+}
 .matrix-loader-rain {
   color: hsl(0, 72%, 51%);
+}
+.matrix-loader-corporate .matrix-loader-rain {
+  color: rgb(56, 189, 248);
 }

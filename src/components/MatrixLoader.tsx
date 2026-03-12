@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const MATRIX_CHARS = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const EXTRA_COLS = 2;
@@ -15,6 +16,8 @@ const getRandomChar = () =>
 
 export default function MatrixLoader({ onComplete }: { onComplete: () => void }) {
   const { t } = useLanguage();
+  const { theme } = useTheme();
+  const isCorporate = theme === "corporate";
   const sentence = t("loader.matrixSentence");
   const words = sentence.split(" ");
   const [phase, setPhase] = useState<"rain" | "snap" | "hold">("rain");
@@ -102,7 +105,16 @@ export default function MatrixLoader({ onComplete }: { onComplete: () => void })
   }, [sentenceVisible]);
 
   return (
-    <div className="matrix-loader fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black overflow-hidden">
+    <div className={`matrix-loader fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black overflow-hidden ${isCorporate ? "matrix-loader-corporate" : ""}`}>
+      {/* Skip button */}
+      <button
+        type="button"
+        onClick={onComplete}
+        className="absolute top-4 right-4 z-[110] px-4 py-2 text-sm font-mono tracking-wider border border-white/40 text-white/80 hover:bg-white/10 hover:text-white transition-colors rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+        aria-label={t("loader.skip")}
+      >
+        {t("loader.skip")}
+      </button>
       {/* Matrix rain columns - keeps running behind text */}
       <div
         className="absolute inset-0 grid gap-px"
@@ -114,7 +126,7 @@ export default function MatrixLoader({ onComplete }: { onComplete: () => void })
       >
         {columns.map((col) => (
           <div key={col.id} className="h-full min-w-0 overflow-hidden">
-            <MatrixColumn chars={col.chars} />
+            <MatrixColumn chars={col.chars} isCorporate={isCorporate} />
           </div>
         ))}
       </div>
@@ -175,7 +187,7 @@ export default function MatrixLoader({ onComplete }: { onComplete: () => void })
   );
 }
 
-function MatrixColumn({ chars }: { chars: string[] }) {
+function MatrixColumn({ chars, isCorporate }: { chars: string[]; isCorporate?: boolean }) {
   const delay = Math.random() * 1.5;
   const duration = 2 + Math.random() * 0.6;
   return (
@@ -183,7 +195,8 @@ function MatrixColumn({ chars }: { chars: string[] }) {
       className="matrix-loader-rain flex flex-col w-full text-[10px] sm:text-[11px] leading-tight whitespace-nowrap min-h-[200vh]"
       style={{
         animation: `matrixFall ${duration}s linear ${delay}s infinite`,
-        textShadow: "0 0 6px hsl(0, 72%, 51%)",
+        color: isCorporate ? "rgb(56, 189, 248)" : undefined,
+        textShadow: isCorporate ? "0 0 6px rgb(56, 189, 248)" : "0 0 6px hsl(0, 72%, 51%)",
         willChange: "transform",
       }}
     >
