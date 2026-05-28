@@ -36,6 +36,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hud.local": "ЛОКАЛНО:",
     // Corporate
     "corp.cyberStyle": "Cyber стил",
+    "corp.corporateStyle": "Corporate",
     "corp.cyber": "Cyber",
     // Contact page
     "contact.title": "КОНТАКТ",
@@ -92,6 +93,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "loader.skip": "Пропусни",
     // CV section
     "cv.button": "CV",
+    "cv.buttonHint": "Натисни, за да видиш опита и уменията",
     "cv.professionalSummary": "ПРОФЕСИОНАЛНО РЕЗЮМЕ",
     "cv.professionalExperience": "ПРОФЕСИОНАЛЕН ОПИТ",
     "cv.education": "ОБРАЗОВАНИЕ",
@@ -258,6 +260,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "hud.server": "SERVER:",
     "hud.local": "LOCAL:",
     "corp.cyberStyle": "Cyber style",
+    "corp.corporateStyle": "Corporate",
     "corp.cyber": "Cyber",
     "contact.title": "CONTACT",
     "contact.openForHire": "Open for hire",
@@ -306,6 +309,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "loader.matrixSentence": "I'm your Full Stack Developer",
     "loader.skip": "Skip",
     "cv.button": "CV",
+    "cv.buttonHint": "Tap to view experience and skills",
     "cv.professionalSummary": "PROFESSIONAL SUMMARY",
     "cv.professionalExperience": "PROFESSIONAL EXPERIENCE",
     "cv.education": "EDUCATION",

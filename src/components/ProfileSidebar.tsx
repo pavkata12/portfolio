@@ -47,7 +47,7 @@ const ProfileSidebar = ({ drawer }: ProfileSidebarProps) => {
 
   if (!isCyber) {
     return (
-      <aside className={`${drawer ? "w-full" : "w-56 shrink-0"} border-r border-slate-700 flex flex-col overflow-y-auto bg-slate-800/80 backdrop-blur-sm`}>
+      <aside className={`${drawer ? "w-full" : "w-56 shrink-0"} border-r border-slate-700/80 flex flex-col overflow-y-auto bg-slate-900/70 backdrop-blur-sm`}>
         <div className="p-6">
           <div className="rounded-full overflow-hidden border-2 border-slate-600 w-32 h-32 mx-auto">
             <img
@@ -77,7 +77,7 @@ const ProfileSidebar = ({ drawer }: ProfileSidebarProps) => {
           </div>
           <a
             href="/contact"
-            className="block w-full py-2.5 text-center text-sm font-medium text-sky-400 border border-sky-500/50 rounded-lg hover:bg-sky-500/10 transition-colors"
+            className="block w-full py-2.5 text-center text-sm font-medium text-white bg-sky-500/90 rounded-lg hover:bg-sky-500 transition-colors"
           >
             {t("profile.getInTouch")}
           </a>
@@ -108,22 +108,22 @@ const ProfileSidebar = ({ drawer }: ProfileSidebarProps) => {
           <span className="font-mono text-[9px] text-gray-200 tracking-widest">{t("profile.availability")}</span>
           <a
             href="/contact"
-            className={`w-full border px-3 py-1.5 flex items-center justify-between transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+            className={`w-full border px-3 py-1.5 flex items-center justify-between transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
               highlightOpenForHire
-                ? "border-primary bg-primary/25 shadow-[0_0_20px_hsl(var(--primary)/0.5)] ring-2 ring-primary/60"
-                : "border-primary bg-primary/10 hover:opacity-90"
+                ? "border-cyan-400 bg-cyan-400/20 shadow-[0_0_20px_rgba(0,229,255,0.35)] ring-2 ring-cyan-400/50"
+                : "border-cyan-400/50 bg-cyan-400/5 hover:opacity-90"
             }`}
           >
-            <span className="font-display text-[10px] tracking-wider text-primary">{t("contact.openForHire")}</span>
-            <span className="text-primary text-xs">⬡</span>
+            <span className="font-display text-[10px] tracking-wider text-cyan-400">{t("contact.openForHire")}</span>
+            <span className="text-cyan-400 text-xs">⬡</span>
           </a>
           <div className="mt-2 pt-2 border-t border-border/60">
             <div className="flex items-center justify-between gap-1 mb-1">
-              <span className="font-display text-[9px] tracking-wider text-primary font-bold">{t("profile.loadingLabel")}</span>
-              <span className="font-display text-[9px] tracking-wider text-primary font-bold">{Math.round(loadProgress)}%</span>
+              <span className="font-display text-[9px] tracking-wider text-cyan-400 font-bold">{t("profile.loadingLabel")}</span>
+              <span className="font-display text-[9px] tracking-wider text-cyan-400 font-bold">{Math.round(loadProgress)}%</span>
             </div>
-            <div className="border border-primary h-2 overflow-hidden bg-primary/20">
-              <div className="h-full bg-primary transition-[width] duration-150 ease-linear" style={{ width: `${Math.min(100, loadProgress)}%` }} />
+            <div className="border border-cyan-400/40 h-2 overflow-hidden bg-cyan-400/10">
+              <div className="h-full bg-cyan-400 transition-[width] duration-150 ease-linear shadow-[0_0_8px_#00e5ff]" style={{ width: `${Math.min(100, loadProgress)}%` }} />
             </div>
           </div>
         </div>
@@ -139,7 +139,7 @@ const ProfileSidebar = ({ drawer }: ProfileSidebarProps) => {
 const ProfileField = ({ label, value }: { label: string; value: string }) => (
   <div className="space-y-0.5">
     <span className="font-mono text-[9px] text-gray-200 tracking-widest">{label}</span>
-    <p className="font-display text-xs tracking-wider text-primary">{value}</p>
+    <p className="font-display text-xs tracking-wider text-cyan-400">{value}</p>
   </div>
 );
 

@@ -54,8 +54,9 @@ const QuestSidebar = ({ drawer }: QuestSidebarProps) => {
   return (
     <aside className={`${drawer ? "w-full" : "w-64 shrink-0"} border-l border-border/80 flex flex-col overflow-y-auto cyber-sidebar-bg backdrop-blur-md`}>
       <div className="border-b border-border/80 rounded-lg m-2 shadow-xl shadow-black/30 bg-black/50 backdrop-blur-md border border-white/10">
-        <div className="bg-primary/90 px-4 py-2 flex items-center justify-between rounded-t-lg">
-          <span className="font-display text-[10px] tracking-widest text-primary-foreground font-bold">{t("repos.title").toUpperCase()}</span>
+        <div className="bg-gradient-to-r from-red-600/90 to-red-700/90 px-4 py-2 flex items-center justify-between rounded-t-lg border-b border-cyan-400/20">
+          <span className="font-display text-[10px] tracking-widest text-white font-bold">{t("repos.title").toUpperCase()}</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_#00e5ff] animate-pulse" aria-hidden />
         </div>
 
         <div className="p-4 space-y-4 rounded-b-lg">
@@ -63,7 +64,7 @@ const QuestSidebar = ({ drawer }: QuestSidebarProps) => {
             <p className="font-mono text-[9px] text-gray-200">{t("repos.loading")}</p>
           )}
           {error && (
-            <p className="font-mono text-[9px] text-primary">{t("repos.error")}</p>
+            <p className="font-mono text-[9px] text-red-400">{t("repos.error")}</p>
           )}
           {!loading && !latestRepo && !error && (
             <p className="font-mono text-[9px] text-gray-200">{t("repos.empty")}</p>
@@ -71,13 +72,13 @@ const QuestSidebar = ({ drawer }: QuestSidebarProps) => {
           {latestRepo && (
             <>
               <div className="space-y-1">
-                <span className="font-mono text-[9px] text-primary tracking-widest">{t("repos.title").toUpperCase()}</span>
+                <span className="font-mono text-[9px] text-cyan-400 tracking-widest">{t("repos.title").toUpperCase()}</span>
                 <p className="font-display text-sm tracking-wider text-foreground">{latestRepo.name}</p>
               </div>
 
               {latestRepo.description && (
                 <div className="space-y-1">
-                  <span className="font-mono text-[9px] text-primary tracking-widest">ABOUT</span>
+                  <span className="font-mono text-[9px] text-cyan-400 tracking-widest">ABOUT</span>
                   <p className="font-body text-xs text-gray-200 leading-relaxed line-clamp-3">
                     {latestRepo.description}
                   </p>
@@ -85,18 +86,18 @@ const QuestSidebar = ({ drawer }: QuestSidebarProps) => {
               )}
 
               <div className="space-y-2">
-                <span className="font-mono text-[9px] text-primary tracking-widest">STATS</span>
+                <span className="font-mono text-[9px] text-cyan-400 tracking-widest">STATS</span>
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-1">
                     <Star className="w-4 h-4 text-[hsl(var(--neon-amber))]" />
                     <span className="font-mono text-[10px] text-gray-200">{latestRepo.stargazers_count}</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Trophy className="w-4 h-4 text-primary" />
+                    <Trophy className="w-4 h-4 text-red-400" />
                     <span className="font-mono text-[10px] text-gray-200">{latestRepo.forks_count}</span>
                   </div>
                   {latestRepo.language && (
-                    <span className="font-mono text-[9px] text-primary">{latestRepo.language}</span>
+                    <span className="font-mono text-[9px] text-cyan-400">{latestRepo.language}</span>
                   )}
                 </div>
               </div>
@@ -105,7 +106,7 @@ const QuestSidebar = ({ drawer }: QuestSidebarProps) => {
                 href={latestRepo.html_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full border border-primary py-2 font-display text-[9px] tracking-widest text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+                className="flex items-center justify-center gap-2 w-full border border-cyan-400/50 py-2 font-display text-[9px] tracking-widest text-cyan-400 hover:bg-cyan-400/10 hover:border-cyan-400 transition-colors"
               >
                 {t("profile.openOnGitHub")}
                 <ExternalLink className="w-3 h-3" />
@@ -174,7 +175,7 @@ const SettingRow = ({
     <div className="flex items-center gap-1">
       {expandIcon}
       {isGear && <Icon className="w-4 h-4 text-gray-200" />}
-      {!isGear && enabled && <Check className="w-4 h-4 text-primary" />}
+      {!isGear && enabled && <Check className="w-4 h-4 text-cyan-400" />}
       {!isGear && enabled === false && <span className="text-gray-200 text-xs">✕</span>}
     </div>
   </div>

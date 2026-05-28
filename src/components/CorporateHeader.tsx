@@ -19,24 +19,27 @@ const CorporateHeader = ({ activeTab, onTabChange, onOpenProfile }: CorporateHea
   const { toggleCyberfication } = useTheme();
   const { locale, setLocale, t } = useLanguage();
   return (
-    <header className="h-14 shrink-0 bg-slate-800/95 backdrop-blur border-b border-slate-700 flex items-center justify-between px-4 sm:px-6 safe-area-top">
-      <Link to="/" className="text-slate-100 font-semibold text-lg tracking-tight hover:text-white transition-colors">
+    <header className="h-14 shrink-0 bg-slate-900/90 backdrop-blur-md border-b border-slate-700/80 flex items-center justify-between px-4 sm:px-6 lg:px-8 safe-area-top">
+      <Link to="/" className="text-slate-100 font-semibold text-base sm:text-lg tracking-tight hover:text-white transition-colors">
         {t("site.name")}
       </Link>
-      <nav className="hidden sm:flex items-center gap-6 sm:gap-8">
+      <nav className="hidden sm:flex items-center gap-1 sm:gap-2">
         {navItemIds.map((item) => (
           <button
             key={item.id}
             type="button"
             onClick={() => onTabChange(item.id)}
-            className={`text-sm font-medium transition-colors ${
-              activeTab === item.id ? "text-sky-400" : "text-slate-300 hover:text-white"
+            className={`text-sm font-medium px-3 py-1.5 rounded-md transition-colors ${
+              activeTab === item.id ? "text-sky-400 bg-sky-400/10" : "text-slate-300 hover:text-white hover:bg-slate-800"
             }`}
           >
             {t(item.labelKey)}
           </button>
         ))}
-        <Link to="/contact" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+        <Link
+          to="/contact"
+          className="text-sm font-medium px-3 py-1.5 rounded-md text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+        >
           {t("nav.contact")}
         </Link>
         <div className="flex items-center gap-2">

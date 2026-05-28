@@ -160,7 +160,7 @@ const CyberHeroSection = ({ onTabChange }: CyberHeroSectionProps) => {
       </section>
       {/* Line below hero: Full-Stack intro */}
       <section
-        className="w-full px-4 sm:px-6 lg:px-10 py-4 sm:py-5 bg-black/40 backdrop-blur-sm border-t border-white/10"
+        className="w-full px-4 sm:px-6 lg:px-10 py-4 sm:py-5 bg-black/50 backdrop-blur-sm border-t border-cyan-400/20 scan-lines"
         aria-label="About"
       >
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row flex-wrap items-center justify-center sm:justify-between gap-y-3 sm:gap-y-0 gap-x-4 sm:gap-x-6 text-center sm:text-left">

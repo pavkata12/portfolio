@@ -42,10 +42,10 @@ const Index = () => {
             className="fixed inset-0 w-full h-full object-cover object-center pointer-events-none -z-10"
             aria-hidden
           />
-          <div className="fixed inset-0 -z-10 bg-black/30" aria-hidden />
+          <div className="fixed inset-0 -z-10 bg-black/30 cyber-bg" aria-hidden />
         </>
       )}
-      {!isCyber && <div className="fixed inset-0 -z-10 bg-slate-900" aria-hidden />}
+      {!isCyber && <div className="fixed inset-0 -z-10 corporate-bg" aria-hidden />}
 
       {/* Top: Cyber HUD или Corporate minimal header */}
       {isCyber ? (

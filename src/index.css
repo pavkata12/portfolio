@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=New+Rocker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=New+Rocker&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -297,6 +297,49 @@
   animation: slide-in-from-right 0.25s ease-out forwards;
 }
 
+@keyframes cv-btn-glow-cyber {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.2), inset 0 0 12px rgba(0, 229, 255, 0.04);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(0, 229, 255, 0.4), 0 0 48px rgba(0, 229, 255, 0.12), inset 0 0 16px rgba(0, 229, 255, 0.08);
+  }
+}
+
+@keyframes cv-btn-glow-corporate {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.15), 0 4px 20px rgba(0, 0, 0, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(56, 189, 248, 0.35), 0 4px 28px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@keyframes cv-chevron-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+
+.cv-toggle-btn-cyber {
+  animation: cv-btn-glow-cyber 2.5s ease-in-out infinite;
+}
+
+.cv-toggle-btn-corporate {
+  animation: cv-btn-glow-corporate 2.5s ease-in-out infinite;
+}
+
+.cv-toggle-chevron {
+  animation: cv-chevron-bounce 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cv-toggle-btn-cyber,
+  .cv-toggle-btn-corporate,
+  .cv-toggle-chevron {
+    animation: none;
+  }
+}
+
 /* Whale hero - pops out, nothing covers it */
 .whale-hero {
   isolation: isolate;
@@ -316,24 +359,33 @@
 
 /* Corporate theme – по-чист, корпоративен вид без неон */
 [data-theme="corporate"] {
-  --primary: 215 25% 50%;
+  --primary: 199 89% 48%;
   --primary-foreground: 0 0% 100%;
-  --border: 215 15% 22%;
-  --ring: 215 25% 50%;
-  --accent: 215 25% 50%;
-  --sidebar-primary: 215 25% 50%;
-  --sidebar-border: 215 15% 25%;
+  --border: 215 20% 28%;
+  --ring: 199 89% 48%;
+  --accent: 199 89% 48%;
+  --sidebar-primary: 199 89% 48%;
+  --sidebar-border: 215 20% 28%;
+  --background: 222 47% 8%;
+  --foreground: 210 20% 92%;
+  --card: 222 40% 12%;
+  --muted-foreground: 215 16% 60%;
+}
+
+[data-theme="corporate"] body,
+.theme-corporate {
+  font-family: 'Inter', system-ui, sans-serif;
+  text-shadow: none;
 }
 
 [data-theme="corporate"] .font-display,
 [data-theme="corporate"] .font-body,
-[data-theme="corporate"] .font-slogan {
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-}
-
+[data-theme="corporate"] .font-slogan,
 .theme-corporate .font-display,
 .theme-corporate .font-body {
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: inherit;
+  text-shadow: none;
 }
 
 /* Corporate content – чист шаблон стил за Beginning и др. */
@@ -361,16 +413,112 @@
   background: transparent;
 }
 
-/* Cyber theme – text that was red (primary) becomes white; "Hello I'm" stays cyan via .hero-cyber-greeting */
-[data-theme="cyber"] .text-primary {
-  color: #fff;
+[data-theme="corporate"] .corporate-bg {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(56, 189, 248, 0.08), transparent),
+    linear-gradient(180deg, rgb(15 23 42) 0%, rgb(15 20 35) 50%, rgb(10 15 28) 100%);
 }
-[data-theme="cyber"] .text-red-400 {
-  color: #fff;
+
+[data-theme="corporate"] .corporate-content .text-red-400,
+[data-theme="corporate"] .corporate-content .text-primary {
+  @apply text-sky-400;
 }
-[data-theme="cyber"] [class*="var(--primary)"][class*="text-"] {
-  color: #fff;
+
+[data-theme="corporate"] .corporate-content .border-primary {
+  border-color: rgb(56 189 248 / 0.5);
 }
+
+[data-theme="corporate"] .corporate-content .font-display {
+  @apply font-semibold tracking-normal;
+  letter-spacing: 0.01em;
+}
+
+[data-theme="corporate"] .creations-tab .creations-wrapper {
+  perspective-origin: center center;
+}
+
+/* Cyber theme – HUD стил с cyan/red акценти */
+[data-theme="cyber"] {
+  --cyber-cyan: #00e5ff;
+  --cyber-red: hsl(0, 72%, 51%);
+}
+
+[data-theme="cyber"] .cyber-bg {
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 0%, rgba(0, 229, 255, 0.06), transparent),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.75) 100%);
+}
+
+[data-theme="cyber"] .cyber-content h2 {
+  @apply text-gray-100 font-display text-sm sm:text-base tracking-widest border-b border-white/15 pb-2 mb-3;
+}
+
+[data-theme="cyber"] .cyber-content h3 {
+  color: var(--cyber-cyan);
+}
+
+[data-theme="cyber"] .cyber-content .text-red-400 {
+  color: var(--cyber-red);
+}
+
+[data-theme="cyber"] .cyber-content a.text-red-400:hover {
+  color: var(--cyber-cyan);
+}
+
+[data-theme="cyber"] .cyber-hud-panel {
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="cyber"] .cyber-tab-active {
+  color: var(--cyber-cyan);
+  border-top-color: var(--cyber-cyan);
+  background: rgba(0, 229, 255, 0.08);
+  box-shadow: inset 0 2px 12px rgba(0, 229, 255, 0.12);
+}
+
+[data-theme="cyber"] .text-cyber-cyan {
+  color: var(--cyber-cyan);
+}
+
+[data-theme="cyber"] .text-cyber-red {
+  color: var(--cyber-red);
+}
+
+[data-theme="cyber"] .border-cyber-cyan {
+  border-color: rgba(0, 229, 255, 0.45);
+}
+
+[data-theme="cyber"] .border-cyber-red {
+  border-color: rgba(255, 60, 60, 0.45);
+}
+
+[data-theme="cyber"] .creations-tab.cyber-content .creations-card {
+  box-shadow: 0 0 24px rgba(0, 229, 255, 0.04);
+}
+
+[data-theme="cyber"] .creations-tab.cyber-content .creations-arrow:hover:not(:disabled) {
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.35);
+  border-color: var(--cyber-cyan);
+  color: var(--cyber-cyan);
+}
+
+/* Cyber nav – primary text stays readable white in HUD chrome only */
+[data-theme="cyber"] .cyber-nav .text-primary,
+[data-theme="cyber"] .hud-top-bar .text-primary {
+  color: var(--cyber-cyan);
+}
+
+[data-theme="cyber"] .cyber-nav .border-t-primary {
+  border-top-color: var(--cyber-cyan);
+}
+
+[data-theme="cyber"] .cyber-nav .bg-primary\/10 {
+  background-color: rgba(0, 229, 255, 0.08);
+}
+
 /* Loader: red by default, blue for corporate */
 .matrix-loader-sentence {
   color: hsl(0, 72%, 51%);

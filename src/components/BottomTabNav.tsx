@@ -44,7 +44,7 @@ const BottomTabNav = ({ activeTab, onTabChange }: BottomTabNavProps) => {
 
   return (
     <div
-      className="h-14 sm:h-16 border-t border-border/80 flex items-stretch shrink-0 bg-black/40 backdrop-blur-sm"
+      className="cyber-nav h-14 sm:h-16 border-t border-white/10 flex items-stretch shrink-0 bg-black/55 backdrop-blur-md scan-lines"
       style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
       {tabIds.map((tab) => {
@@ -55,23 +55,23 @@ const BottomTabNav = ({ activeTab, onTabChange }: BottomTabNavProps) => {
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
             aria-current={isActive ? "true" : undefined}
-            className={`flex-1 flex flex-col items-center justify-center gap-0.5 sm:gap-1 border-r border-border last:border-r-0 transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset min-h-[44px] touch-manipulation ${
+            className={`flex-1 flex flex-col items-center justify-center gap-0.5 sm:gap-1 border-r border-white/10 last:border-r-0 transition-all duration-200 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-inset min-h-[44px] touch-manipulation ${
               isActive
-                ? "bg-primary/10 border-t-2 border-t-primary text-primary"
-                : "hover:bg-secondary/50 active:bg-secondary/70"
+                ? "cyber-tab-active border-t-2"
+                : "border-t-2 border-t-transparent hover:bg-white/5 active:bg-white/10 text-gray-300"
             }`}
           >
             <span
               className={`font-display text-[8px] sm:text-[10px] tracking-widest text-center leading-tight px-1 ${
-                isActive ? "text-primary" : "text-gray-200"
+                isActive ? "text-cyan-400" : "text-gray-300"
               }`}
             >
               {t(tab.labelKey)}
             </span>
             {isActive && (
-              <span className="font-mono text-[7px] sm:text-[8px] text-primary">✕</span>
+              <span className="w-1 h-1 rounded-full bg-cyan-400 shadow-[0_0_6px_#00e5ff]" aria-hidden />
             )}
-            <p className="font-mono text-[9px] text-gray-200 max-w-[120px] text-center leading-tight hidden lg:block">
+            <p className="font-mono text-[9px] text-gray-400 max-w-[120px] text-center leading-tight hidden lg:block">
               {tab.id === "beginning" && t("nav.exploreStart")}
               {tab.id === "achievements" && t("nav.reposDesc")}
               {tab.id === "creations" && t("nav.exploreProjects")}

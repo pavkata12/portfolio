@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
-import { useTheme } from "@/contexts/ThemeContext";
+import { useState, useRef, useCallback } from "react";
+import { ChevronDown, ChevronUp, FileText } from "lucide-react";import { useTheme } from "@/contexts/ThemeContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { githubUrl } from "@/config/site";
 
@@ -8,25 +7,66 @@ const CvSection = () => {
   const { isCyber } = useTheme();
   const { t } = useLanguage();
   const [showCv, setShowCv] = useState(false);
+  const cvContentRef = useRef<HTMLDivElement>(null);
+
+  const handleToggle = useCallback(() => {
+    const opening = !showCv;
+    setShowCv(opening);
+    if (opening) {
+      window.setTimeout(() => {
+        cvContentRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 120);
+    }
+  }, [showCv]);
 
   return (
-    <div className={`relative z-10 ${isCyber ? "bg-black/40 backdrop-blur-sm border-t border-border/80" : "border-t border-slate-700/80"}`}>
-      <button
-        type="button"
-        onClick={() => setShowCv((v) => !v)}
-        className={`w-full flex items-center justify-between gap-3 px-4 sm:px-6 py-4 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary ${
-          isCyber ? "hover:bg-white/5 text-gray-200" : "hover:bg-slate-700/50 text-slate-200"
-        }`}
-        aria-expanded={showCv}
-      >
-        <span className="font-display text-sm sm:text-base tracking-widest">
-          {t("cv.button")}
-        </span>
-        {showCv ? <ChevronUp className="w-5 h-5 shrink-0" /> : <ChevronDown className="w-5 h-5 shrink-0" />}
-      </button>
+    <div
+      className={`relative z-10 ${isCyber ? "bg-black/40 backdrop-blur-sm border-t border-white/10 cyber-content" : "border-t border-slate-700/60 corporate-content"}`}
+    >
+      <div className={`px-4 sm:px-6 lg:px-8 py-4 sm:py-5 ${!isCyber ? "max-w-5xl mx-auto" : ""}`}>
+        <button
+          type="button"
+          onClick={handleToggle}
+          aria-expanded={showCv}
+          className={`cv-toggle-btn group w-full flex items-center justify-between gap-3 px-4 sm:px-5 py-3.5 sm:py-4 text-left rounded-xl transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent active:scale-[0.99] touch-manipulation ${
+            showCv
+              ? isCyber
+                ? "bg-cyan-400/10 border border-cyan-400/50 text-gray-100 focus-visible:ring-cyan-400"
+                : "bg-sky-500/10 border border-sky-500/50 text-slate-100 focus-visible:ring-sky-500"
+              : isCyber
+                ? "cv-toggle-btn-cyber bg-black/50 border-2 border-cyan-400/60 text-gray-100 hover:bg-cyan-400/10 hover:border-cyan-400 focus-visible:ring-cyan-400"
+                : "cv-toggle-btn-corporate bg-slate-800/80 border-2 border-sky-500/50 text-slate-100 hover:bg-sky-500/10 hover:border-sky-400 focus-visible:ring-sky-500"
+          }`}
+        >
+          <span className="flex items-center gap-3 min-w-0">
+            <span
+              className={`shrink-0 flex items-center justify-center w-10 h-10 rounded-lg ${
+                isCyber ? "bg-cyan-400/15 text-cyan-400" : "bg-sky-500/15 text-sky-400"
+              } ${!showCv ? "group-hover:scale-105 transition-transform" : ""}`}
+            >
+              <FileText className="w-5 h-5" />
+            </span>
+            <span className="min-w-0">
+              <span className={`block ${isCyber ? "font-display text-sm sm:text-base tracking-widest" : "text-base sm:text-lg font-semibold"}`}>
+                {t("cv.button")}
+              </span>
+              {!showCv && (
+                <span className={`block text-[10px] sm:text-xs mt-0.5 truncate ${isCyber ? "text-cyan-400/70 font-mono tracking-wide" : "text-slate-400"}`}>
+                  {t("cv.buttonHint")}
+                </span>
+              )}
+            </span>
+          </span>
+          <span className={`shrink-0 flex items-center justify-center w-8 h-8 rounded-full border ${isCyber ? "border-cyan-400/40 text-cyan-400" : "border-sky-400/40 text-sky-400"} ${!showCv ? "cv-toggle-chevron" : ""}`}>
+            {showCv ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </span>
+        </button>
+      </div>
       {showCv && (
-        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6">
+        <div
+          ref={cvContentRef}
+          className={`scroll-mt-20 p-4 sm:p-6 lg:p-8 pt-0 space-y-4 sm:space-y-6 ${!isCyber ? "max-w-5xl mx-auto" : "px-4 sm:px-6 lg:px-8"}`}
+        >          <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6">
             <div className="space-y-6">
               <section>
                 <h2 className="font-display text-sm sm:text-base tracking-widest text-white border-b border-primary pb-2 mb-3">
