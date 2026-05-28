@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useAudio } from "@/contexts/AudioContext";
@@ -14,7 +14,6 @@ import {
   CYBER_BTN1_TIME_MOBILE,
   CYBER_BTN2_TIME_MOBILE,
 } from "./constants";
-import { useScrollSyncVideo } from "@/hooks/useScrollSyncVideo";
 
 type CyberHeroSectionProps = {
   onTabChange?: (tab: string) => void;
@@ -28,9 +27,6 @@ const CyberHeroSection = ({ onTabChange }: CyberHeroSectionProps) => {
   const [showCyberHeroBtn1, setShowCyberHeroBtn1] = useState(false);
   const [showCyberHeroBtn2, setShowCyberHeroBtn2] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  useScrollSyncVideo(videoRef, loaderComplete);
 
   useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`);
@@ -53,25 +49,26 @@ const CyberHeroSection = ({ onTabChange }: CyberHeroSectionProps) => {
   return (
     <>
       <section
-        className="relative z-10 w-full min-h-[180vh] sm:min-h-[160vh] lg:min-h-[170vh] bg-transparent"
+        className="relative z-10 w-full min-h-[85vh] sm:min-h-[65vh] lg:min-h-[80vh] pt-4 pb-20 sm:pt-6 sm:pb-12 lg:py-16 overflow-hidden bg-transparent"
         aria-label="Hero"
       >
         {loaderComplete && (
-          <div className="sticky top-0 h-[85vh] sm:h-[65vh] lg:h-[80vh] w-full overflow-hidden">
-            <video
-              ref={videoRef}
-              key={isMobile ? "hero-cyber-mobile" : "hero-cyber"}
-              className={`absolute inset-0 w-full h-full object-center pointer-events-none ${isMobile ? "object-cover" : "object-contain"}`}
+          <video
+            key={isMobile ? "hero-cyber-mobile" : "hero-cyber"}
+            className={`absolute inset-0 w-full h-full object-center pointer-events-none ${isMobile ? "object-cover" : "object-contain"}`}
+            autoPlay
             muted={isMobile || !heroSoundEnabled}
+            loop
             playsInline
             preload="auto"
             poster="/hero-cyber.png"
             aria-hidden
             onTimeUpdate={(e) => handleTimeUpdate(e.currentTarget.currentTime)}
-            >
-              <source src={isMobile ? "/hero-cyber-mobile.mp4" : "/hero-cyber.mp4"} type="video/mp4" />
-            </video>
-            <div className="absolute inset-0 flex flex-col z-10 pt-4 pb-20 sm:pt-6 sm:pb-12 lg:py-16">
+          >
+            <source src={isMobile ? "/hero-cyber-mobile.mp4" : "/hero-cyber.mp4"} type="video/mp4" />
+          </video>
+        )}
+        <div className="absolute inset-0 flex flex-col z-10">
           {showCyberHeroText && (
             <div className="flex-shrink-0 pt-8 sm:pt-12 lg:pt-16 text-center px-4 animate-hero-text-delayed">
               <h1 className="hero-cyber-greeting text-2xl sm:text-4xl lg:text-5xl leading-tight">
@@ -160,8 +157,6 @@ const CyberHeroSection = ({ onTabChange }: CyberHeroSectionProps) => {
             )}
           </div>
         </div>
-          </div>
-        )}
       </section>
       {/* Line below hero: Full-Stack intro */}
       <section

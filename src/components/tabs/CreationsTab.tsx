@@ -89,7 +89,6 @@ const VideoWithFallback = ({
   className,
   aspectClass,
   tapToPlay = false,
-  tapToPlayLabel = "",
 }: {
   src?: string;
   srcMp4?: string;
@@ -97,7 +96,6 @@ const VideoWithFallback = ({
   className?: string;
   aspectClass: string;
   tapToPlay?: boolean;
-  tapToPlayLabel?: string;
 }) => {
   const [failed, setFailed] = useState(false);
   const [showTapOverlay, setShowTapOverlay] = useState(false);
@@ -241,27 +239,17 @@ const CreationsTab = () => {
 
   const rotation = -currentIndex * angleStep + rotationOffset;
 
-  const openProject = useCallback(
-    (project: Project) => {
+  const handleCardClick = (index: number, project: Project) => {
+    if (index === currentIndex) {
       if (project.detailPage) {
         navigate(`/project/${project.id}`);
       } else if (project.link && project.link !== "#") {
         window.open(project.link, "_blank");
       }
-    },
-    [navigate],
-  );
-
-  const renderOrder = [...projects.keys()].sort((a, b) => {
-    const posA = (a - currentIndex + projects.length) % projects.length;
-    const posB = (b - currentIndex + projects.length) % projects.length;
-    const layer = (pos: number) => {
-      if (pos === 0) return 2;
-      if (pos === 1 || pos === projects.length - 1) return 1;
-      return 0;
-    };
-    return layer(posA) - layer(posB);
-  });
+    } else if (!isNarrow) {
+      setCurrentIndex(index);
+    }
+  };
 
   const renderProjectCard = (project: Project, index: number) => {
     const position = (index - currentIndex + projects.length) % projects.length;
@@ -269,13 +257,21 @@ const CreationsTab = () => {
     const isSide = position === 1 || position === projects.length - 1;
 
     const isCenterCard = position === 0;
+    const clickableOnMobile = isNarrow ? isCenterCard : true;
 
     return (
       <div
         key={project.id}
-        className={`creations-card absolute top-1/2 left-1/2 bg-black/55 border-2 border-border transition-all duration-[800ms] ease-[cubic-bezier(0.4,0,0.2,1)] overflow-hidden rounded p-4 ${
-          isCenterCard ? "overflow-y-auto" : "pointer-events-none"
-        }`}
+        role="button"
+        tabIndex={clickableOnMobile ? 0 : -1}
+        onClick={() => handleCardClick(index, project)}
+        onKeyDown={(e) => {
+          if (clickableOnMobile && (e.key === "Enter" || e.key === " ")) {
+            e.preventDefault();
+            handleCardClick(index, project);
+          }
+        }}
+        className={`creations-card absolute top-1/2 left-1/2 bg-black/55 border-2 border-border transition-all duration-[800ms] ease-[cubic-bezier(0.4,0,0.2,1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background overflow-hidden rounded p-4 ${clickableOnMobile ? "cursor-pointer" : "cursor-default pointer-events-none"}`}
         style={{
           ...getCardStyle(index, isCenter, isSide, translateZ),
           width: CARD_W,
@@ -348,15 +344,20 @@ const CreationsTab = () => {
             />
           </div>
         )}
-        {isCenterCard && (
-          <button
-            type="button"
-            onClick={() => openProject(project)}
-            className="relative z-30 mt-3 w-full shrink-0 px-5 py-2 border border-primary text-primary font-display text-[9px] tracking-widest hover:bg-primary hover:text-primary-foreground active:scale-[0.98] transition-all cursor-pointer touch-manipulation focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
-          >
-            {project.detailPage ? t("creations.viewDetails") : t("creations.viewLink")}
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (project.detailPage) {
+              navigate(`/project/${project.id}`);
+            } else if (project.link && project.link !== "#") {
+              window.open(project.link, "_blank");
+            }
+          }}
+          className="mt-3 w-full px-5 py-1.5 border border-primary text-primary font-display text-[9px] tracking-widest hover:bg-primary hover:text-primary-foreground active:scale-[0.98] transition-all cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
+        >
+          {project.detailPage ? t("creations.viewDetails") : t("creations.viewLink")}
+        </button>
       </div>
     );
   };
@@ -390,7 +391,7 @@ const CreationsTab = () => {
             }}
             onTransitionEnd={handleTransitionEnd}
           >
-            {renderOrder.map((index) => renderProjectCard(projects[index], index))}
+            {projects.map((project, index) => renderProjectCard(project, index))}
           </div>
         </div>
         <button
