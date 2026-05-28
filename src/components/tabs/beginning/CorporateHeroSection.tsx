@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { githubUrl } from "@/config/site";
 import { CORPORATE_HERO_TEXT_TIME } from "./constants";
+import { useScrollSyncVideo } from "@/hooks/useScrollSyncVideo";
 
 type CorporateHeroSectionProps = {
   onTabChange?: (tab: string) => void;
@@ -12,19 +13,23 @@ type CorporateHeroSectionProps = {
 const CorporateHeroSection = ({ onTabChange }: CorporateHeroSectionProps) => {
   const { t } = useLanguage();
   const [showCorporateHeroText, setShowCorporateHeroText] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useScrollSyncVideo(videoRef, true);
 
   return (
     <section
-      className="relative z-10 w-full min-h-[55vh] sm:min-h-[65vh] lg:min-h-[80vh] pt-4 pb-8 sm:pt-6 sm:pb-12 lg:py-16 overflow-hidden bg-black"
+      className="relative z-10 w-full min-h-[180vh] sm:min-h-[160vh] lg:min-h-[170vh] bg-black"
       aria-label="Hero"
     >
-      <video
+      <div className="sticky top-0 h-[55vh] sm:h-[65vh] lg:h-[80vh] w-full overflow-hidden">
+        <video
+          ref={videoRef}
         key="hero-corporate"
         className="absolute inset-0 w-full h-full object-cover object-center lg:object-cover lg:object-[center_20%] pointer-events-none"
-        autoPlay
         muted
-        loop
         playsInline
+        preload="auto"
         aria-hidden
         onTimeUpdate={(e) => {
           if (!showCorporateHeroText && e.currentTarget.currentTime >= CORPORATE_HERO_TEXT_TIME) {
@@ -36,8 +41,8 @@ const CorporateHeroSection = ({ onTabChange }: CorporateHeroSectionProps) => {
       </video>
       {showCorporateHeroText && (
         <div className="absolute inset-0 z-[5] bg-black/40 pointer-events-none" aria-hidden />
-      )}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 lg:gap-12 min-h-0 lg:min-h-[60vh] items-stretch px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto relative z-10">
+        )}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 lg:gap-12 min-h-0 lg:min-h-[60vh] items-stretch px-4 sm:px-6 lg:px-10 max-w-7xl mx-auto relative z-10 pt-4 pb-8 sm:pt-6 sm:pb-12 lg:py-16">
         {showCorporateHeroText && (
           <div className="relative z-20 flex flex-col justify-center order-2 lg:order-1 pt-0 pb-4 sm:py-4 lg:py-4 animate-hero-text-delayed">
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-amber-400 leading-tight mb-1 sm:mb-2">
@@ -96,6 +101,7 @@ const CorporateHeroSection = ({ onTabChange }: CorporateHeroSectionProps) => {
           </div>
         )}
         <div className="relative order-1 lg:order-2 min-h-0 sm:min-h-0 lg:min-h-[200px]" aria-hidden />
+        </div>
       </div>
     </section>
   );

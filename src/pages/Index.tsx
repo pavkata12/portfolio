@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { X } from "lucide-react";
 import HudTopBar from "@/components/HudTopBar";
 import CorporateHeader from "@/components/CorporateHeader";
@@ -9,9 +9,11 @@ import BeginningTab from "@/components/tabs/BeginningTab";
 import AchievementsTab from "@/components/tabs/AchievementsTab";
 import CreationsTab from "@/components/tabs/CreationsTab";
 import { useTheme } from "@/contexts/ThemeContext";
+import { ScrollContainerProvider } from "@/contexts/ScrollContainerContext";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("beginning");
+  const mainScrollRef = useRef<HTMLDivElement | null>(null);
   const [profileDrawerOpen, setProfileDrawerOpen] = useState(false);
   const [questDrawerOpen, setQuestDrawerOpen] = useState(false);
   const { isCyber } = useTheme();
@@ -66,9 +68,14 @@ const Index = () => {
         <div className="hidden md:flex">
           <ProfileSidebar />
         </div>
-        <main className={`flex-1 overflow-y-auto overflow-x-hidden min-w-0 ${isCyber ? "px-3 sm:px-0" : "px-4 sm:px-6 lg:px-8"}`}>
-          {renderTab()}
-        </main>
+        <ScrollContainerProvider scrollContainerRef={mainScrollRef}>
+          <main
+            ref={mainScrollRef}
+            className={`flex-1 overflow-y-auto overflow-x-hidden min-w-0 ${isCyber ? "px-3 sm:px-0" : "px-4 sm:px-6 lg:px-8"}`}
+          >
+            {renderTab()}
+          </main>
+        </ScrollContainerProvider>
         <div className="hidden lg:flex">
           <QuestSidebar />
         </div>
