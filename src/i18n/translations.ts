@@ -91,6 +91,16 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Loader
     "loader.matrixSentence": "Аз съм вашият Full Stack разработчик",
     "loader.skip": "Пропусни",
+    // Pill choice (opening)
+    "pill.blueLabel": "СИНЯ ТАБЛЕТКА",
+    "pill.blueTitle": "Виж истината",
+    "pill.blueSubtitle": "Corporate стил",
+    "pill.blueAria": "Синя таблетка – Corporate тема",
+    "pill.redLabel": "ЧЕРВЕНА ТАБЛЕТКА",
+    "pill.redTitle": "Остани в Матрицата",
+    "pill.redSubtitle": "Cyber стил",
+    "pill.redAria": "Червена таблетка – Cyber тема",
+    "pill.chooseLanguage": "Език",
     // CV section
     "cv.button": "CV",
     "cv.buttonHint": "Натисни, за да видиш опита и уменията",
@@ -308,6 +318,16 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Loader
     "loader.matrixSentence": "I'm your Full Stack Developer",
     "loader.skip": "Skip",
+    // Pill choice (opening)
+    "pill.blueLabel": "BLUE PILL",
+    "pill.blueTitle": "See the truth",
+    "pill.blueSubtitle": "Corporate style",
+    "pill.blueAria": "Blue pill – Corporate theme",
+    "pill.redLabel": "RED PILL",
+    "pill.redTitle": "Stay in the Matrix",
+    "pill.redSubtitle": "Cyber style",
+    "pill.redAria": "Red pill – Cyber theme",
+    "pill.chooseLanguage": "Language",
     "cv.button": "CV",
     "cv.buttonHint": "Tap to view experience and skills",
     "cv.professionalSummary": "PROFESSIONAL SUMMARY",
